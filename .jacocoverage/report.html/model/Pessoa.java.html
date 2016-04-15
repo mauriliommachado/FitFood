@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pessoa.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitFood&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Pessoa.java</span></div><h1>Pessoa.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author Maurílio
+ */
+@Entity
+@Table(name = &quot;pessoa&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Pessoa.findAll&quot;, query = &quot;SELECT p FROM Pessoa p&quot;),
+    @NamedQuery(name = &quot;Pessoa.findByCodPessoa&quot;, query = &quot;SELECT p FROM Pessoa p WHERE p.codPessoa = :codPessoa&quot;),
+    @NamedQuery(name = &quot;Pessoa.findByCodTipoPessoa&quot;, query = &quot;SELECT p FROM Pessoa p WHERE p.codTipoPessoa = :codTipoPessoa&quot;),
+    @NamedQuery(name = &quot;Pessoa.findByPesFisica&quot;, query = &quot;SELECT p FROM Pessoa p WHERE p.pesFisica = :pesFisica&quot;),
+    @NamedQuery(name = &quot;Pessoa.findByPesNome&quot;, query = &quot;SELECT p FROM Pessoa p WHERE p.pesNome = :pesNome&quot;),
+    @NamedQuery(name = &quot;Pessoa.findByPesSexo&quot;, query = &quot;SELECT p FROM Pessoa p WHERE p.pesSexo = :pesSexo&quot;)})
+public class Pessoa implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = &quot;Cod_Pessoa&quot;)
+    private Integer codPessoa;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;Cod_Tipo_Pessoa&quot;)
+    private short codTipoPessoa;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;pesFisica&quot;)
+    private boolean pesFisica;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 60)
+    @Column(name = &quot;pesNome&quot;)
+    private String pesNome;
+    @Column(name = &quot;pesSexo&quot;)
+    private Boolean pesSexo;
+    @JoinColumn(name = &quot;Cod_Empresa&quot;, referencedColumnName = &quot;Cod_Empresa&quot;)
+    @ManyToOne(optional = false)
+    private Empresa codEmpresa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = &quot;codPessoa&quot;)
+    private List&lt;Endereco&gt; enderecoList;
+
+<span class="fc" id="L70">    public Pessoa() {</span>
+<span class="fc" id="L71">    }</span>
+
+<span class="nc" id="L73">    public Pessoa(Integer codPessoa) {</span>
+<span class="nc" id="L74">        this.codPessoa = codPessoa;</span>
+<span class="nc" id="L75">    }</span>
+
+<span class="nc" id="L77">    public Pessoa(Integer codPessoa, short codTipoPessoa, boolean pesFisica, String pesNome) {</span>
+<span class="nc" id="L78">        this.codPessoa = codPessoa;</span>
+<span class="nc" id="L79">        this.codTipoPessoa = codTipoPessoa;</span>
+<span class="nc" id="L80">        this.pesFisica = pesFisica;</span>
+<span class="nc" id="L81">        this.pesNome = pesNome;</span>
+<span class="nc" id="L82">    }</span>
+
+    public Integer getCodPessoa() {
+<span class="nc" id="L85">        return codPessoa;</span>
+    }
+
+    public void setCodPessoa(Integer codPessoa) {
+<span class="nc" id="L89">        this.codPessoa = codPessoa;</span>
+<span class="nc" id="L90">    }</span>
+
+    public short getCodTipoPessoa() {
+<span class="nc" id="L93">        return codTipoPessoa;</span>
+    }
+
+    public void setCodTipoPessoa(short codTipoPessoa) {
+<span class="nc" id="L97">        this.codTipoPessoa = codTipoPessoa;</span>
+<span class="nc" id="L98">    }</span>
+
+    public boolean getPesFisica() {
+<span class="nc" id="L101">        return pesFisica;</span>
+    }
+
+    public void setPesFisica(boolean pesFisica) {
+<span class="nc" id="L105">        this.pesFisica = pesFisica;</span>
+<span class="nc" id="L106">    }</span>
+
+    public String getPesNome() {
+<span class="nc" id="L109">        return pesNome;</span>
+    }
+
+    public void setPesNome(String pesNome) {
+<span class="nc" id="L113">        this.pesNome = pesNome;</span>
+<span class="nc" id="L114">    }</span>
+
+    public Boolean getPesSexo() {
+<span class="nc" id="L117">        return pesSexo;</span>
+    }
+
+    public void setPesSexo(Boolean pesSexo) {
+<span class="nc" id="L121">        this.pesSexo = pesSexo;</span>
+<span class="nc" id="L122">    }</span>
+
+    public Empresa getCodEmpresa() {
+<span class="nc" id="L125">        return codEmpresa;</span>
+    }
+
+    public void setCodEmpresa(Empresa codEmpresa) {
+<span class="nc" id="L129">        this.codEmpresa = codEmpresa;</span>
+<span class="nc" id="L130">    }</span>
+
+    @XmlTransient
+    public List&lt;Endereco&gt; getEnderecoList() {
+<span class="nc" id="L134">        return enderecoList;</span>
+    }
+
+    public void setEnderecoList(List&lt;Endereco&gt; enderecoList) {
+<span class="nc" id="L138">        this.enderecoList = enderecoList;</span>
+<span class="nc" id="L139">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L143">        int hash = 0;</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        hash += (codPessoa != null ? codPessoa.hashCode() : 0);</span>
+<span class="nc" id="L145">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (!(object instanceof Pessoa)) {</span>
+<span class="nc" id="L152">            return false;</span>
+        }
+<span class="nc" id="L154">        Pessoa other = (Pessoa) object;</span>
+<span class="nc bnc" id="L155" title="All 8 branches missed.">        if ((this.codPessoa == null &amp;&amp; other.codPessoa != null) || (this.codPessoa != null &amp;&amp; !this.codPessoa.equals(other.codPessoa))) {</span>
+<span class="nc" id="L156">            return false;</span>
+        }
+<span class="nc" id="L158">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L163">        return &quot;model.Pessoa[ codPessoa=&quot; + codPessoa + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

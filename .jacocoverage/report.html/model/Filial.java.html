@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Filial.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitFood&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Filial.java</span></div><h1>Filial.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import com.google.gson.annotations.JsonAdapter;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author Maurílio
+ */
+@Entity
+@Table(name = &quot;filial&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Filial.findAll&quot;, query = &quot;SELECT f FROM Filial f&quot;),
+    @NamedQuery(name = &quot;Filial.findByCodFilial&quot;, query = &quot;SELECT f FROM Filial f WHERE f.codFilial = :codFilial&quot;),
+    @NamedQuery(name = &quot;Filial.findByFilNumero&quot;, query = &quot;SELECT f FROM Filial f WHERE f.filNumero = :filNumero&quot;),
+    @NamedQuery(name = &quot;Filial.findByFilRazaoSocial&quot;, query = &quot;SELECT f FROM Filial f WHERE f.filRazaoSocial = :filRazaoSocial&quot;),
+    @NamedQuery(name = &quot;Filial.findByFilNomeFantasia&quot;, query = &quot;SELECT f FROM Filial f WHERE f.filNomeFantasia = :filNomeFantasia&quot;),
+    @NamedQuery(name = &quot;Filial.findByFilIE&quot;, query = &quot;SELECT f FROM Filial f WHERE f.filIE = :filIE&quot;)})
+public class Filial implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = &quot;Cod_Filial&quot;)
+    private Integer codFilial;
+    @Size(max = 16)
+    @Column(name = &quot;filNumero&quot;)
+    private String filNumero;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 60)
+    @Column(name = &quot;filRazao_Social&quot;)
+    private String filRazaoSocial;
+    @Size(max = 60)
+    @Column(name = &quot;filNome_Fantasia&quot;)
+    private String filNomeFantasia;
+    @Size(max = 12)
+    @Column(name = &quot;filIE&quot;)
+    private String filIE;
+    @JoinColumn(name = &quot;Cod_Empresa&quot;, referencedColumnName = &quot;Cod_Empresa&quot;)
+    @ManyToOne(optional = false)
+    private Empresa codEmpresa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = &quot;codFilial&quot;)
+    private List&lt;Produto&gt; produtoList;
+
+<span class="fc" id="L71">    public Filial() {</span>
+<span class="fc" id="L72">    }</span>
+
+<span class="nc" id="L74">    public Filial(Integer codFilial) {</span>
+<span class="nc" id="L75">        this.codFilial = codFilial;</span>
+<span class="nc" id="L76">    }</span>
+
+<span class="nc" id="L78">    public Filial(Integer codFilial, String filRazaoSocial) {</span>
+<span class="nc" id="L79">        this.codFilial = codFilial;</span>
+<span class="nc" id="L80">        this.filRazaoSocial = filRazaoSocial;</span>
+<span class="nc" id="L81">    }</span>
+
+    public Integer getCodFilial() {
+<span class="fc" id="L84">        return codFilial;</span>
+    }
+
+    public void setCodFilial(Integer codFilial) {
+<span class="fc" id="L88">        this.codFilial = codFilial;</span>
+<span class="fc" id="L89">    }</span>
+
+    public String getFilNumero() {
+<span class="fc" id="L92">        return filNumero;</span>
+    }
+
+    public void setFilNumero(String filNumero) {
+<span class="fc" id="L96">        this.filNumero = filNumero;</span>
+<span class="fc" id="L97">    }</span>
+
+    public String getFilRazaoSocial() {
+<span class="fc" id="L100">        return filRazaoSocial;</span>
+    }
+
+    public void setFilRazaoSocial(String filRazaoSocial) {
+<span class="fc" id="L104">        this.filRazaoSocial = filRazaoSocial;</span>
+<span class="fc" id="L105">    }</span>
+
+    public String getFilNomeFantasia() {
+<span class="nc" id="L108">        return filNomeFantasia;</span>
+    }
+
+    public void setFilNomeFantasia(String filNomeFantasia) {
+<span class="fc" id="L112">        this.filNomeFantasia = filNomeFantasia;</span>
+<span class="fc" id="L113">    }</span>
+
+    public String getFilIE() {
+<span class="nc" id="L116">        return filIE;</span>
+    }
+
+    public void setFilIE(String filIE) {
+<span class="fc" id="L120">        this.filIE = filIE;</span>
+<span class="fc" id="L121">    }</span>
+
+    public Empresa getCodEmpresa() {
+<span class="nc" id="L124">        return codEmpresa;</span>
+    }
+
+    public void setCodEmpresa(Empresa codEmpresa) {
+<span class="fc" id="L128">        this.codEmpresa = codEmpresa;</span>
+<span class="fc" id="L129">    }</span>
+
+    @XmlTransient
+    public List&lt;Produto&gt; getProdutoList() {
+<span class="nc" id="L133">        return produtoList;</span>
+    }
+
+    public void setProdutoList(List&lt;Produto&gt; produtoList) {
+<span class="nc" id="L137">        this.produtoList = produtoList;</span>
+<span class="nc" id="L138">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L142">        int hash = 0;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        hash += (codFilial != null ? codFilial.hashCode() : 0);</span>
+<span class="nc" id="L144">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (!(object instanceof Filial)) {</span>
+<span class="nc" id="L151">            return false;</span>
+        }
+<span class="nc" id="L153">        Filial other = (Filial) object;</span>
+<span class="nc bnc" id="L154" title="All 8 branches missed.">        if ((this.codFilial == null &amp;&amp; other.codFilial != null) || (this.codFilial != null &amp;&amp; !this.codFilial.equals(other.codFilial))) {</span>
+<span class="nc" id="L155">            return false;</span>
+        }
+<span class="nc" id="L157">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L162">        return &quot;model.Filial[ codFilial=&quot; + codFilial + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

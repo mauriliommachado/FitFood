@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pedido.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitFood&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Pedido.java</span></div><h1>Pedido.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author Maurílio
+ */
+@Entity
+@Table(name = &quot;pedido&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Pedido.findAll&quot;, query = &quot;SELECT p FROM Pedido p&quot;),
+    @NamedQuery(name = &quot;Pedido.findByCodPedido&quot;, query = &quot;SELECT p FROM Pedido p WHERE p.codPedido = :codPedido&quot;),
+    @NamedQuery(name = &quot;Pedido.findByCodTipoPedido&quot;, query = &quot;SELECT p FROM Pedido p WHERE p.codTipoPedido = :codTipoPedido&quot;),
+    @NamedQuery(name = &quot;Pedido.findByPedStatus&quot;, query = &quot;SELECT p FROM Pedido p WHERE p.pedStatus = :pedStatus&quot;),
+    @NamedQuery(name = &quot;Pedido.findByPedDtRealizacao&quot;, query = &quot;SELECT p FROM Pedido p WHERE p.pedDtRealizacao = :pedDtRealizacao&quot;),
+    @NamedQuery(name = &quot;Pedido.findByPedDtBaixa&quot;, query = &quot;SELECT p FROM Pedido p WHERE p.pedDtBaixa = :pedDtBaixa&quot;)})
+public class Pedido implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = &quot;Cod_Pedido&quot;)
+    private Integer codPedido;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;Cod_Tipo_Pedido&quot;)
+    private short codTipoPedido;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;pedStatus&quot;)
+    private short pedStatus;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;pedDt_Realizacao&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date pedDtRealizacao;
+    @Column(name = &quot;pedDt_Baixa&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date pedDtBaixa;
+    @JoinTable(name = &quot;item_pedido&quot;, joinColumns = {
+        @JoinColumn(name = &quot;Cod_Pedido&quot;, referencedColumnName = &quot;Cod_Pedido&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;Cod_Produto&quot;, referencedColumnName = &quot;Cod_Produto&quot;)})
+    @ManyToMany
+    private List&lt;Produto&gt; produtoList;
+
+<span class="fc" id="L72">    public Pedido() {</span>
+<span class="fc" id="L73">    }</span>
+
+<span class="nc" id="L75">    public Pedido(Integer codPedido) {</span>
+<span class="nc" id="L76">        this.codPedido = codPedido;</span>
+<span class="nc" id="L77">    }</span>
+
+<span class="nc" id="L79">    public Pedido(Integer codPedido, short codTipoPedido, short pedStatus, Date pedDtRealizacao) {</span>
+<span class="nc" id="L80">        this.codPedido = codPedido;</span>
+<span class="nc" id="L81">        this.codTipoPedido = codTipoPedido;</span>
+<span class="nc" id="L82">        this.pedStatus = pedStatus;</span>
+<span class="nc" id="L83">        this.pedDtRealizacao = pedDtRealizacao;</span>
+<span class="nc" id="L84">    }</span>
+
+    public Integer getCodPedido() {
+<span class="nc" id="L87">        return codPedido;</span>
+    }
+
+    public void setCodPedido(Integer codPedido) {
+<span class="nc" id="L91">        this.codPedido = codPedido;</span>
+<span class="nc" id="L92">    }</span>
+
+    public short getCodTipoPedido() {
+<span class="nc" id="L95">        return codTipoPedido;</span>
+    }
+
+    public void setCodTipoPedido(short codTipoPedido) {
+<span class="nc" id="L99">        this.codTipoPedido = codTipoPedido;</span>
+<span class="nc" id="L100">    }</span>
+
+    public short getPedStatus() {
+<span class="nc" id="L103">        return pedStatus;</span>
+    }
+
+    public void setPedStatus(short pedStatus) {
+<span class="nc" id="L107">        this.pedStatus = pedStatus;</span>
+<span class="nc" id="L108">    }</span>
+
+    public Date getPedDtRealizacao() {
+<span class="nc" id="L111">        return pedDtRealizacao;</span>
+    }
+
+    public void setPedDtRealizacao(Date pedDtRealizacao) {
+<span class="nc" id="L115">        this.pedDtRealizacao = pedDtRealizacao;</span>
+<span class="nc" id="L116">    }</span>
+
+    public Date getPedDtBaixa() {
+<span class="nc" id="L119">        return pedDtBaixa;</span>
+    }
+
+    public void setPedDtBaixa(Date pedDtBaixa) {
+<span class="nc" id="L123">        this.pedDtBaixa = pedDtBaixa;</span>
+<span class="nc" id="L124">    }</span>
+
+    @XmlTransient
+    public List&lt;Produto&gt; getProdutoList() {
+<span class="nc" id="L128">        return produtoList;</span>
+    }
+
+    public void setProdutoList(List&lt;Produto&gt; produtoList) {
+<span class="nc" id="L132">        this.produtoList = produtoList;</span>
+<span class="nc" id="L133">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L137">        int hash = 0;</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        hash += (codPedido != null ? codPedido.hashCode() : 0);</span>
+<span class="nc" id="L139">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (!(object instanceof Pedido)) {</span>
+<span class="nc" id="L146">            return false;</span>
+        }
+<span class="nc" id="L148">        Pedido other = (Pedido) object;</span>
+<span class="nc bnc" id="L149" title="All 8 branches missed.">        if ((this.codPedido == null &amp;&amp; other.codPedido != null) || (this.codPedido != null &amp;&amp; !this.codPedido.equals(other.codPedido))) {</span>
+<span class="nc" id="L150">            return false;</span>
+        }
+<span class="nc" id="L152">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L157">        return &quot;model.Pedido[ codPedido=&quot; + codPedido + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

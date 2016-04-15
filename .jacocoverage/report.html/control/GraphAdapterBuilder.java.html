@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GraphAdapterBuilder.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitFood&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">control</a> &gt; <span class="el_source">GraphAdapterBuilder.java</span></div><h1>GraphAdapterBuilder.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
+import com.google.gson.JsonElement;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.internal.ConstructorConstructor;
+import com.google.gson.internal.ObjectConstructor;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+
+/**
+ *
+ * @author Maurílio
+ */
+public class GraphAdapterBuilder {
+
+    private final Map&lt;Type, InstanceCreator&lt;?&gt;&gt; instanceCreators;
+    private final ConstructorConstructor constructorConstructor;
+
+<span class="nc" id="L37">    public GraphAdapterBuilder() {</span>
+<span class="nc" id="L38">        this.instanceCreators = new HashMap&lt;Type, InstanceCreator&lt;?&gt;&gt;();</span>
+<span class="nc" id="L39">        this.constructorConstructor = new ConstructorConstructor(instanceCreators);</span>
+<span class="nc" id="L40">    }</span>
+
+    public GraphAdapterBuilder addType(Type type) {
+<span class="nc" id="L43">        final ObjectConstructor&lt;?&gt; objectConstructor = constructorConstructor.get(TypeToken.get(type));</span>
+<span class="nc" id="L44">        InstanceCreator&lt;Object&gt; instanceCreator = new InstanceCreator&lt;Object&gt;() {</span>
+            public Object createInstance(Type type) {
+<span class="nc" id="L46">                return objectConstructor.construct();</span>
+            }
+        };
+<span class="nc" id="L49">        return addType(type, instanceCreator);</span>
+    }
+
+    public GraphAdapterBuilder addType(Type type, InstanceCreator&lt;?&gt; instanceCreator) {
+<span class="nc bnc" id="L53" title="All 4 branches missed.">        if (type == null || instanceCreator == null) {</span>
+<span class="nc" id="L54">            throw new NullPointerException();</span>
+        }
+<span class="nc" id="L56">        instanceCreators.put(type, instanceCreator);</span>
+<span class="nc" id="L57">        return this;</span>
+    }
+
+    public void registerOn(GsonBuilder gsonBuilder) {
+<span class="nc" id="L61">        Factory factory = new Factory(instanceCreators);</span>
+<span class="nc" id="L62">        gsonBuilder.registerTypeAdapterFactory(factory);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        for (Map.Entry&lt;Type, InstanceCreator&lt;?&gt;&gt; entry : instanceCreators.entrySet()) {</span>
+<span class="nc" id="L64">            gsonBuilder.registerTypeAdapter(entry.getKey(), factory);</span>
+<span class="nc" id="L65">        }</span>
+<span class="nc" id="L66">    }</span>
+
+    static class Factory implements TypeAdapterFactory, InstanceCreator {
+
+        private final Map&lt;Type, InstanceCreator&lt;?&gt;&gt; instanceCreators;
+<span class="nc" id="L71">        private final ThreadLocal&lt;Graph&gt; graphThreadLocal = new ThreadLocal&lt;Graph&gt;();</span>
+
+<span class="nc" id="L73">        Factory(Map&lt;Type, InstanceCreator&lt;?&gt;&gt; instanceCreators) {</span>
+<span class="nc" id="L74">            this.instanceCreators = instanceCreators;</span>
+<span class="nc" id="L75">        }</span>
+
+        public &lt;T&gt; TypeAdapter&lt;T&gt; create(Gson gson, TypeToken&lt;T&gt; type) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if (!instanceCreators.containsKey(type.getType())) {</span>
+<span class="nc" id="L79">                return null;</span>
+            }
+
+<span class="nc" id="L82">            final TypeAdapter&lt;T&gt; typeAdapter = gson.getDelegateAdapter(this, type);</span>
+<span class="nc" id="L83">            final TypeAdapter&lt;JsonElement&gt; elementAdapter = gson.getAdapter(JsonElement.class);</span>
+<span class="nc" id="L84">            return new TypeAdapter&lt;T&gt;() {</span>
+                @Override
+                public void write(JsonWriter out, T value) throws IOException {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                    if (value == null) {</span>
+<span class="nc" id="L88">                        out.nullValue();</span>
+<span class="nc" id="L89">                        return;</span>
+                    }
+
+<span class="nc" id="L92">                    Graph graph = graphThreadLocal.get();</span>
+<span class="nc" id="L93">                    boolean writeEntireGraph = false;</span>
+
+                    /*
+                     * We have one of two cases:
+                     *  1. We've encountered the first known object in this graph. Write
+                     *     out the graph, starting with that object.
+                     *  2. We've encountered another graph object in the course of #1.
+                     *     Just write out this object's name. We'll circle back to writing
+                     *     out the object's value as a part of #1.
+                     */
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                    if (graph == null) {</span>
+<span class="nc" id="L104">                        writeEntireGraph = true;</span>
+<span class="nc" id="L105">                        graph = new Graph(new IdentityHashMap&lt;Object, Element&lt;?&gt;&gt;());</span>
+                    }
+
+                    @SuppressWarnings(&quot;unchecked&quot;) // graph.map guarantees consistency between value and T
+<span class="nc" id="L109">                    Element&lt;T&gt; element = (Element&lt;T&gt;) graph.map.get(value);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                    if (element == null) {</span>
+<span class="nc" id="L111">                        element = new Element&lt;T&gt;(value, graph.nextName(), typeAdapter, null);</span>
+<span class="nc" id="L112">                        graph.map.put(value, element);</span>
+<span class="nc" id="L113">                        graph.queue.add(element);</span>
+                    }
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">                    if (writeEntireGraph) {</span>
+<span class="nc" id="L117">                        graphThreadLocal.set(graph);</span>
+                        try {
+<span class="nc" id="L119">                            out.beginObject();</span>
+                            Element&lt;?&gt; current;
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                            while ((current = graph.queue.poll()) != null) {</span>
+<span class="nc" id="L122">                                out.name(current.id);</span>
+<span class="nc" id="L123">                                current.write(out);</span>
+                            }
+<span class="nc" id="L125">                            out.endObject();</span>
+                        } finally {
+<span class="nc" id="L127">                            graphThreadLocal.remove();</span>
+<span class="nc" id="L128">                        }</span>
+                    } else {
+<span class="nc" id="L130">                        out.value(element.id);</span>
+                    }
+<span class="nc" id="L132">                }</span>
+
+                @Override
+                public T read(JsonReader in) throws IOException {
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                    if (in.peek() == JsonToken.NULL) {</span>
+<span class="nc" id="L137">                        in.nextNull();</span>
+<span class="nc" id="L138">                        return null;</span>
+                    }
+
+                    /*
+                     * Again we have one of two cases:
+                     *  1. We've encountered the first known object in this graph. Read
+                     *     the entire graph in as a map from names to their JsonElements.
+                     *     Then convert the first JsonElement to its Java object.
+                     *  2. We've encountered another graph object in the course of #1.
+                     *     Read in its name, then deserialize its value from the
+                     *     JsonElement in our map. We need to do this lazily because we
+                     *     don't know which TypeAdapter to use until a value is
+                     *     encountered in the wild.
+                     */
+<span class="nc" id="L152">                    String currentName = null;</span>
+<span class="nc" id="L153">                    Graph graph = graphThreadLocal.get();</span>
+<span class="nc" id="L154">                    boolean readEntireGraph = false;</span>
+
+<span class="nc bnc" id="L156" title="All 2 branches missed.">                    if (graph == null) {</span>
+<span class="nc" id="L157">                        graph = new Graph(new HashMap&lt;Object, Element&lt;?&gt;&gt;());</span>
+<span class="nc" id="L158">                        readEntireGraph = true;</span>
+
+                        // read the entire tree into memory
+<span class="nc" id="L161">                        in.beginObject();</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                        while (in.hasNext()) {</span>
+<span class="nc" id="L163">                            String name = in.nextName();</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">                            if (currentName == null) {</span>
+<span class="nc" id="L165">                                currentName = name;</span>
+                            }
+<span class="nc" id="L167">                            JsonElement element = elementAdapter.read(in);</span>
+<span class="nc" id="L168">                            graph.map.put(name, new Element&lt;T&gt;(null, name, typeAdapter, element));</span>
+<span class="nc" id="L169">                        }</span>
+<span class="nc" id="L170">                        in.endObject();</span>
+                    } else {
+<span class="nc" id="L172">                        currentName = in.nextString();</span>
+                    }
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">                    if (readEntireGraph) {</span>
+<span class="nc" id="L176">                        graphThreadLocal.set(graph);</span>
+                    }
+                    try {
+                        @SuppressWarnings(&quot;unchecked&quot;) // graph.map guarantees consistency between value and T
+<span class="nc" id="L180">                        Element&lt;T&gt; element = (Element&lt;T&gt;) graph.map.get(currentName);</span>
+                        // now that we know the typeAdapter for this name, go from JsonElement to 'T'
+<span class="nc bnc" id="L182" title="All 2 branches missed.">                        if (element.value == null) {</span>
+<span class="nc" id="L183">                            element.typeAdapter = typeAdapter;</span>
+<span class="nc" id="L184">                            element.read(graph);</span>
+                        }
+<span class="nc" id="L186">                        return element.value;</span>
+                    } finally {
+<span class="nc bnc" id="L188" title="All 4 branches missed.">                        if (readEntireGraph) {</span>
+<span class="nc" id="L189">                            graphThreadLocal.remove();</span>
+                        }
+                    }
+                }
+            };
+        }
+
+        /**
+         * Hook for the graph adapter to get a reference to a deserialized value
+         * before that value is fully populated. This is useful to deserialize
+         * values that directly or indirectly reference themselves: we can hand
+         * out an instance before read() returns.
+         *
+         * &lt;p&gt;
+         * Gson should only ever call this method when we're expecting it to;
+         * that is only when we've called back into Gson to deserialize a tree.
+         */
+        @SuppressWarnings(&quot;unchecked&quot;)
+        public Object createInstance(Type type) {
+<span class="nc" id="L208">            Graph graph = graphThreadLocal.get();</span>
+<span class="nc bnc" id="L209" title="All 4 branches missed.">            if (graph == null || graph.nextCreate == null) {</span>
+<span class="nc" id="L210">                throw new IllegalStateException(&quot;Unexpected call to createInstance() for &quot; + type);</span>
+            }
+<span class="nc" id="L212">            InstanceCreator&lt;?&gt; creator = instanceCreators.get(type);</span>
+<span class="nc" id="L213">            Object result = creator.createInstance(type);</span>
+<span class="nc" id="L214">            graph.nextCreate.value = result;</span>
+<span class="nc" id="L215">            graph.nextCreate = null;</span>
+<span class="nc" id="L216">            return result;</span>
+        }
+    }
+
+    static class Graph {
+
+        /**
+         * The graph elements. On serialization keys are objects (using an
+         * identity hash map) and on deserialization keys are the string names
+         * (using a standard hash map).
+         */
+        private final Map&lt;Object, Element&lt;?&gt;&gt; map;
+
+        /**
+         * The queue of elements to write during serialization. Unused during
+         * deserialization.
+         */
+<span class="nc" id="L233">        private final Queue&lt;Element&gt; queue = new LinkedList&lt;Element&gt;();</span>
+
+        /**
+         * The instance currently being deserialized. Used as a backdoor between
+         * the graph traversal (which needs to know instances) and instance
+         * creators which create them.
+         */
+        private Element nextCreate;
+
+<span class="nc" id="L242">        private Graph(Map&lt;Object, Element&lt;?&gt;&gt; map) {</span>
+<span class="nc" id="L243">            this.map = map;</span>
+<span class="nc" id="L244">        }</span>
+
+        /**
+         * Returns a unique name for an element to be inserted into the graph.
+         */
+        public String nextName() {
+<span class="nc" id="L250">            return &quot;0x&quot; + Integer.toHexString(map.size() + 1);</span>
+        }
+    }
+
+    /**
+     * An element of the graph during serialization or deserialization.
+     */
+    static class Element&lt;T&gt; {
+
+        /**
+         * This element's name in the top level graph object.
+         */
+        private final String id;
+
+        /**
+         * The value if known. During deserialization this is lazily populated.
+         */
+        private T value;
+
+        /**
+         * This element's type adapter if known. During deserialization this is
+         * lazily populated.
+         */
+        private TypeAdapter&lt;T&gt; typeAdapter;
+
+        /**
+         * The element to deserialize. Unused in serialization.
+         */
+        private final JsonElement element;
+
+<span class="nc" id="L280">        Element(T value, String id, TypeAdapter&lt;T&gt; typeAdapter, JsonElement element) {</span>
+<span class="nc" id="L281">            this.value = value;</span>
+<span class="nc" id="L282">            this.id = id;</span>
+<span class="nc" id="L283">            this.typeAdapter = typeAdapter;</span>
+<span class="nc" id="L284">            this.element = element;</span>
+<span class="nc" id="L285">        }</span>
+
+        void write(JsonWriter out) throws IOException {
+<span class="nc" id="L288">            typeAdapter.write(out, value);</span>
+<span class="nc" id="L289">        }</span>
+
+        void read(Graph graph) throws IOException {
+<span class="nc bnc" id="L292" title="All 2 branches missed.">            if (graph.nextCreate != null) {</span>
+<span class="nc" id="L293">                throw new IllegalStateException(&quot;Unexpected recursive call to read() for &quot; + id);</span>
+            }
+<span class="nc" id="L295">            graph.nextCreate = this;</span>
+<span class="nc" id="L296">            value = typeAdapter.fromJsonTree(element);</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">            if (value == null) {</span>
+<span class="nc" id="L298">                throw new IllegalStateException(&quot;non-null value deserialized to null: &quot; + element);</span>
+            }
+<span class="nc" id="L300">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

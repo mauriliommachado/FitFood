@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ControleEmpresa.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitFood&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">control</a> &gt; <span class="el_source">ControleEmpresa.java</span></div><h1>ControleEmpresa.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control;
+
+import java.util.List;
+import model.dao.DAO;
+import model.Empresa;
+import model.dao.JpaEmpresasDAO;
+
+/**
+ *
+ * @author Maurílio
+ */
+<span class="nc" id="L17">public abstract class ControleEmpresa {</span>
+
+<span class="fc" id="L19">    static DAO dao = new JpaEmpresasDAO();</span>
+
+    public static int gravar(int cod, String cnpj) {
+<span class="fc" id="L22">        Empresa empresa = busca(cod);</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (empresa==null) {</span>
+<span class="fc" id="L24">            empresa=new Empresa();</span>
+        }
+<span class="fc" id="L26">        empresa.setEmpCNPJ(cnpj);</span>
+<span class="fc" id="L27">        dao.gravar(empresa);</span>
+<span class="fc" id="L28">        return empresa.getCodEmpresa();</span>
+    }
+
+    public static Empresa busca(int cod) {
+<span class="fc" id="L32">        return (Empresa) dao.busca(cod);</span>
+    }
+
+    public static List&lt;Empresa&gt; busca() {
+<span class="fc" id="L36">        return dao.listarTodos();</span>
+    }
+    
+    public static boolean deleta(int cod){
+<span class="fc" id="L40">        Empresa empresa = busca(cod);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (empresa==null ) {</span>
+<span class="fc" id="L42">            return false;</span>
+        }
+<span class="fc" id="L44">        dao.excluir(empresa);</span>
+<span class="fc" id="L45">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

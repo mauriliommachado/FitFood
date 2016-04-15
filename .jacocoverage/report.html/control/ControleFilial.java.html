@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ControleFilial.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitFood&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">control</a> &gt; <span class="el_source">ControleFilial.java</span></div><h1>ControleFilial.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control;
+
+import java.util.List;
+import model.Empresa;
+import model.dao.DAO;
+import model.Filial;
+import model.dao.JpaFilialDAO;
+
+/**
+ *
+ * @author Maurílio
+ */
+<span class="nc" id="L18">public abstract class ControleFilial {</span>
+
+<span class="fc" id="L20">    static DAO dao = new JpaFilialDAO();</span>
+
+    public static int gravar(int cod, String razaoSocial, String nomeFantasia, String ie, String numero, int codEmpresa) {
+<span class="fc" id="L23">        Filial filial = busca(cod);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (filial == null) {</span>
+<span class="fc" id="L25">            filial = new Filial();</span>
+        }
+<span class="fc" id="L27">        Empresa empresa = ControleEmpresa.busca(codEmpresa);</span>
+<span class="fc" id="L28">        filial.setCodFilial(cod);</span>
+<span class="fc" id="L29">        filial.setFilIE(ie);</span>
+<span class="fc" id="L30">        filial.setFilRazaoSocial(razaoSocial);</span>
+<span class="fc" id="L31">        filial.setFilNomeFantasia(nomeFantasia);</span>
+<span class="fc" id="L32">        filial.setFilNumero(numero);</span>
+<span class="fc" id="L33">        filial.setCodEmpresa(empresa);</span>
+<span class="fc" id="L34">        dao.gravar(filial);</span>
+<span class="fc" id="L35">        return filial.getCodFilial();</span>
+    }
+
+    public static Filial busca(int cod) {
+<span class="fc" id="L39">        return (Filial) dao.busca(cod);</span>
+    }
+
+    public static List&lt;Filial&gt; busca() {
+<span class="fc" id="L43">        return dao.listarTodos();</span>
+    }
+
+    public static boolean deleta(int cod) {
+<span class="fc" id="L47">        Filial filial = busca(cod);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (filial == null) {</span>
+<span class="fc" id="L49">            return false;</span>
+        }
+<span class="fc" id="L51">        dao.excluir(filial);</span>
+<span class="fc" id="L52">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
