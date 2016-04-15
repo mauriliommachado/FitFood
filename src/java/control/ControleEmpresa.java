@@ -8,6 +8,7 @@ package control;
 import java.util.List;
 import model.dao.DAO;
 import model.Empresa;
+import model.Filial;
 import model.dao.JpaEmpresasDAO;
 
 /**
@@ -61,5 +62,6 @@ public abstract class ControleEmpresa {
         dao.excluir(empresa);
         return true;
     }
+
 
 }

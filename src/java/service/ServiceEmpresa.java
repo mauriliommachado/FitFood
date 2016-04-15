@@ -8,7 +8,6 @@ package service;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import control.ControleEmpresa;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
@@ -20,7 +19,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import model.Empresa;
-import model.Filial;
 
 /**
  * REST Web Service
@@ -64,7 +62,7 @@ public class ServiceEmpresa {
 
     @PUT
     @Path("grava")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
     public String putEmpresa(String content) {
         Empresa empresa;
         int cod;

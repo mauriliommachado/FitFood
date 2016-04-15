@@ -5,6 +5,7 @@
  */
 package model;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.JsonAdapter;
 import java.io.Serializable;
 import java.util.List;
@@ -159,7 +160,7 @@ public class Filial implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Filial[ codFilial=" + codFilial + " ]";
+        return new Gson().toJson(this);
     }
     
 }

@@ -52,4 +52,21 @@ public abstract class ControleFilial {
         return true;
     }
 
+    public static Filial limpaFilial(Filial filial) {
+        setNull(filial);
+        return filial;
+    }
+    
+    public static List<Filial> limpaFilial(List<Filial> filial) {
+        for(Filial fil : filial){
+            setNull(fil);
+        }
+        return filial;
+    }
+
+    private static void setNull(Filial filial) {
+        filial.setProdutoList(null);
+        ControleEmpresa.limpaEmpresa(filial.getCodEmpresa());
+    }
+
 }

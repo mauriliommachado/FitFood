@@ -5,6 +5,7 @@
  */
 package model;
 
+import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -119,7 +120,7 @@ public class Empresa implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Empresa[ codEmpresa=" + codEmpresa + " ]";
+        return new Gson().toJson(this);
     }
     
 }

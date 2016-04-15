@@ -6,10 +6,10 @@
 package service;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import control.ControleEmpresa;
 import control.ControleFilial;
-import control.GraphAdapterBuilder;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -47,38 +47,50 @@ public class ServiceFilial {
     @Produces("application/json")
     public String getFiliais(@PathParam("idFilial") int id) {
         Filial filial = ControleFilial.busca(id);
-        return gson.toJson(filial != null ? gson.toJson(filial) : gson.toJson(false));
+        if (filial != null) {
+            filial = ControleFilial.limpaFilial(filial);
+        }
+        return gson.toJson(filial != null ? filial : false);
     }
 
     @GET
     @Path("busca")
     @Produces("application/json")
     public String getFiliais() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        new GraphAdapterBuilder()
-                .addType(Filial.class)
-                .registerOn(gsonBuilder);
-        gson=gsonBuilder.create();
-        return gson.toJson(ControleFilial.busca());
+        List<Filial> lista = ControleFilial.busca();
+        return gson.toJson(ControleFilial.limpaFilial(lista));
     }
 
     @PUT
     @Path("grava")
     @Consumes(MediaType.TEXT_PLAIN)
     public String putFilial(String content) {
-        
-        Filial filial = gson.fromJson(content, Filial.class);
-        ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());
-        return gson.toJson(filial);
+        Filial filial;
+        int cod;
+        if (content.isEmpty()) {
+            return null;
+        }
+        try {
+            filial = gson.fromJson(content, Filial.class);
+        } catch (JsonSyntaxException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        if (filial.getCodFilial()== null) {
+            cod = ControleFilial.gravar(0, filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());
+        } else {
+            cod = ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());
+        }
+        return gson.toJson(ControleFilial.limpaFilial(ControleFilial.busca(cod)));
     }
 
     @GET
     @Path("delete/{idFilial}")
     public String deleta(@PathParam("idFilial") int id) {
-        if (ControleEmpresa.deleta(id)) {
-            return gson.toJson(false);
+        if (ControleFilial.deleta(id)) {
+            return gson.toJson(true);
         }
-        return gson.toJson(true);
+        return gson.toJson(false);
 
     }
 }
