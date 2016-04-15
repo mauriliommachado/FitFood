@@ -39,7 +39,12 @@ public class ServiceFilialTest {
 
     @AfterClass
     public static void tearDownClass() {
+        for(int id :idsGerados){
+            ControleFilial.deleta(id);
+        }
+        ControleEmpresa.deleta(codEmpresa);
         ControleFilial.deleta(codFilial);
+        
     }
 
     @Before
@@ -123,7 +128,7 @@ public class ServiceFilialTest {
 
     @Test
     public void testPutFilialAltera() {
-        String content = "{\"codFilial\":" + codFilial + ",\"filNumero\":\"123\",\"filRazaoSocial\":\"teste\",\"filNomeFantasia\":\"teste\",\"filIE\":\"123\",\"codEmpresa\":{\"codEmpresa\":5,\"empCNPJ\":\"13200345000101\"}}";
+        String content = "{\"codFilial\":" + codFilial + ",\"filNumero\":\"123\",\"filRazaoSocial\":\"teste\",\"filNomeFantasia\":\"teste\",\"filIE\":\"123\",\"codEmpresa\":{\"codEmpresa\":" + codEmpresa + ",\"empCNPJ\":\"13200345000101\"}}";
         ServiceFilial instance = new ServiceFilial();
         String result = instance.putFilial(content);
         Filial emp = ControleFilial.busca(codFilial);
@@ -133,7 +138,7 @@ public class ServiceFilialTest {
 
     @Test
     public void testPutFilialGrava() {
-        String content = "{\"filNumero\":\"123\",\"filRazaoSocial\":\"teste\",\"filNomeFantasia\":\"teste\",\"filIE\":\"123\",\"codEmpresa\":{\"codEmpresa\":5,\"empCNPJ\":\"13200345000101\"}}";
+        String content = "{\"filNumero\":\"123\",\"filRazaoSocial\":\"teste\",\"filNomeFantasia\":\"teste\",\"filIE\":\"123\",\"codEmpresa\":{\"codEmpresa\":" + codEmpresa + ",\"empCNPJ\":\"13200345000101\"}}";
         ServiceFilial instance = new ServiceFilial();
         String result = instance.putFilial(content);
         Integer expResult = gson.fromJson(result, Filial.class).getCodFilial();

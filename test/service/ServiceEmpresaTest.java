@@ -54,6 +54,7 @@ public class ServiceEmpresaTest {
 
     @After
     public void tearDown() {
+        ControleEmpresa.deleta(codEmpresa);
     }
 
     /**
