@@ -6,10 +6,10 @@
 package service;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import control.ControleEmpresa;
 import control.ControleFilial;
-import control.GraphAdapterBuilder;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -46,39 +46,51 @@ public class ServiceFilial {
     @Path(&quot;busca/{idFilial}&quot;)
     @Produces(&quot;application/json&quot;)
     public String getFiliais(@PathParam(&quot;idFilial&quot;) int id) {
-<span class="nc" id="L49">        Filial filial = ControleFilial.busca(id);</span>
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        return gson.toJson(filial != null ? gson.toJson(filial) : gson.toJson(false));</span>
+<span class="fc" id="L49">        Filial filial = ControleFilial.busca(id);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (filial != null) {</span>
+<span class="fc" id="L51">            filial = ControleFilial.limpaFilial(filial);</span>
+        }
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        return gson.toJson(filial != null ? filial : false);</span>
     }
 
     @GET
     @Path(&quot;busca&quot;)
     @Produces(&quot;application/json&quot;)
     public String getFiliais() {
-<span class="nc" id="L57">        GsonBuilder gsonBuilder = new GsonBuilder();</span>
-<span class="nc" id="L58">        new GraphAdapterBuilder()</span>
-<span class="nc" id="L59">                .addType(Filial.class)</span>
-<span class="nc" id="L60">                .registerOn(gsonBuilder);</span>
-<span class="nc" id="L61">        gson=gsonBuilder.create();</span>
-<span class="nc" id="L62">        return gson.toJson(ControleFilial.busca());</span>
+<span class="fc" id="L60">        List&lt;Filial&gt; lista = ControleFilial.busca();</span>
+<span class="fc" id="L61">        return gson.toJson(ControleFilial.limpaFilial(lista));</span>
     }
 
     @PUT
     @Path(&quot;grava&quot;)
     @Consumes(MediaType.TEXT_PLAIN)
     public String putFilial(String content) {
-        
-<span class="nc" id="L70">        Filial filial = gson.fromJson(content, Filial.class);</span>
-<span class="nc" id="L71">        ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());</span>
-<span class="nc" id="L72">        return gson.toJson(filial);</span>
+        Filial filial;
+        int cod;
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (content.isEmpty()) {</span>
+<span class="fc" id="L71">            return null;</span>
+        }
+        try {
+<span class="fc" id="L74">            filial = gson.fromJson(content, Filial.class);</span>
+<span class="fc" id="L75">        } catch (JsonSyntaxException ex) {</span>
+<span class="fc" id="L76">            System.out.println(ex);</span>
+<span class="fc" id="L77">            return null;</span>
+<span class="fc" id="L78">        }</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (filial.getCodFilial()== null) {</span>
+<span class="fc" id="L80">            cod = ControleFilial.gravar(0, filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());</span>
+        } else {
+<span class="fc" id="L82">            cod = ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());</span>
+        }
+<span class="fc" id="L84">        return gson.toJson(ControleFilial.limpaFilial(ControleFilial.busca(cod)));</span>
     }
 
     @GET
     @Path(&quot;delete/{idFilial}&quot;)
     public String deleta(@PathParam(&quot;idFilial&quot;) int id) {
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (ControleEmpresa.deleta(id)) {</span>
-<span class="nc" id="L79">            return gson.toJson(false);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (ControleFilial.deleta(id)) {</span>
+<span class="fc" id="L91">            return gson.toJson(true);</span>
         }
-<span class="nc" id="L81">        return gson.toJson(true);</span>
+<span class="fc" id="L93">        return gson.toJson(false);</span>
 
     }
 }

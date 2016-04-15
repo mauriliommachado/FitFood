@@ -8,42 +8,61 @@ package control;
 import java.util.List;
 import model.dao.DAO;
 import model.Empresa;
+import model.Filial;
 import model.dao.JpaEmpresasDAO;
 
 /**
  *
  * @author Maurílio
  */
-<span class="nc" id="L17">public abstract class ControleEmpresa {</span>
+<span class="nc" id="L18">public abstract class ControleEmpresa {</span>
 
-<span class="fc" id="L19">    static DAO dao = new JpaEmpresasDAO();</span>
+<span class="fc" id="L20">    static DAO dao = new JpaEmpresasDAO();</span>
+
+    public static List&lt;Empresa&gt; limpaEmpresa(List&lt;Empresa&gt; list) {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        for (Empresa empresa : list) {</span>
+<span class="fc" id="L24">            setNull(empresa);</span>
+<span class="fc" id="L25">        }</span>
+<span class="fc" id="L26">        return list;</span>
+    }
+
+    private static void setNull(Empresa empresa) {
+<span class="fc" id="L30">        empresa.setFilialList(null);</span>
+<span class="fc" id="L31">        empresa.setPessoaList(null);</span>
+<span class="fc" id="L32">    }</span>
+
+    public static Empresa limpaEmpresa(Empresa empresa) {
+<span class="fc" id="L35">        setNull(empresa);</span>
+<span class="fc" id="L36">        return empresa;</span>
+    }
 
     public static int gravar(int cod, String cnpj) {
-<span class="fc" id="L22">        Empresa empresa = busca(cod);</span>
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (empresa==null) {</span>
-<span class="fc" id="L24">            empresa=new Empresa();</span>
+<span class="fc" id="L40">        Empresa empresa = busca(cod);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (empresa == null) {</span>
+<span class="fc" id="L42">            empresa = new Empresa();</span>
         }
-<span class="fc" id="L26">        empresa.setEmpCNPJ(cnpj);</span>
-<span class="fc" id="L27">        dao.gravar(empresa);</span>
-<span class="fc" id="L28">        return empresa.getCodEmpresa();</span>
+<span class="fc" id="L44">        empresa.setEmpCNPJ(cnpj);</span>
+<span class="fc" id="L45">        dao.gravar(empresa);</span>
+<span class="fc" id="L46">        return empresa.getCodEmpresa();</span>
     }
 
     public static Empresa busca(int cod) {
-<span class="fc" id="L32">        return (Empresa) dao.busca(cod);</span>
+<span class="fc" id="L50">        return (Empresa) dao.busca(cod);</span>
     }
 
     public static List&lt;Empresa&gt; busca() {
-<span class="fc" id="L36">        return dao.listarTodos();</span>
+<span class="fc" id="L54">        return dao.listarTodos();</span>
     }
-    
-    public static boolean deleta(int cod){
-<span class="fc" id="L40">        Empresa empresa = busca(cod);</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (empresa==null ) {</span>
-<span class="fc" id="L42">            return false;</span>
+
+    public static boolean deleta(int cod) {
+<span class="fc" id="L58">        Empresa empresa = busca(cod);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (empresa == null) {</span>
+<span class="fc" id="L60">            return false;</span>
         }
-<span class="fc" id="L44">        dao.excluir(empresa);</span>
-<span class="fc" id="L45">        return true;</span>
+<span class="fc" id="L62">        dao.excluir(empresa);</span>
+<span class="fc" id="L63">        return true;</span>
     }
+
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -52,5 +52,22 @@ import model.dao.JpaFilialDAO;
 <span class="fc" id="L52">        return true;</span>
     }
 
+    public static Filial limpaFilial(Filial filial) {
+<span class="fc" id="L56">        setNull(filial);</span>
+<span class="fc" id="L57">        return filial;</span>
+    }
+    
+    public static List&lt;Filial&gt; limpaFilial(List&lt;Filial&gt; filial) {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        for(Filial fil : filial){</span>
+<span class="fc" id="L62">            setNull(fil);</span>
+<span class="fc" id="L63">        }</span>
+<span class="fc" id="L64">        return filial;</span>
+    }
+
+    private static void setNull(Filial filial) {
+<span class="fc" id="L68">        filial.setProdutoList(null);</span>
+<span class="fc" id="L69">        ControleEmpresa.limpaEmpresa(filial.getCodEmpresa());</span>
+<span class="fc" id="L70">    }</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

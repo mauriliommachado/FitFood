@@ -6,21 +6,29 @@
 package service;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
-import org.glassfish.jersey.server.ContainerRequest;
-import org.glassfish.jersey.server.ContainerResponse;
 
 /**
  *
  * @author Maurílio
  */
 @Provider
-<span class="nc" id="L23">public class Resposta implements ContainerResponseFilter{</span>
+<span class="nc" id="L19">public class Resposta implements ContainerResponseFilter {</span>
+
+    @Override
+    public void filter(ContainerRequestContext request,
+            ContainerResponseContext response) throws IOException {
+<span class="nc" id="L24">        response.getHeaders().add(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span>
+<span class="nc" id="L25">        response.getHeaders().add(&quot;Access-Control-Allow-Headers&quot;,</span>
+                &quot;origin, content-type, accept, authorization&quot;);
+<span class="nc" id="L27">        response.getHeaders().add(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L28">        response.getHeaders().add(&quot;Access-Control-Allow-Methods&quot;,</span>
+                &quot;GET, POST, PUT, DELETE, OPTIONS, HEAD&quot;);
+<span class="nc" id="L30">        System.out.println(&quot;test&quot;);</span>
+<span class="nc" id="L31">    }</span>
 //    public static Response buildResponse(JsonObject json){
 //        return Response.ok().entity(json.toString()).header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;)
 //                .header(&quot;Access-Control-Allow-Methods&quot;, &quot;GET, POST, DELETE, PUT&quot;)
@@ -37,28 +45,27 @@ import org.glassfish.jersey.server.ContainerResponse;
 //        return Response.serverError().build();
 //    }
 
-    public ContainerResponse filter(ContainerRequest request,
-            ContainerResponse response) {
-
-<span class="nc" id="L43">        response.getHeaders().add(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span>
-<span class="nc" id="L44">        response.getHeaders().add(&quot;Access-Control-Allow-Headers&quot;,</span>
-                &quot;origin, content-type, accept, authorization&quot;);
-<span class="nc" id="L46">        response.getHeaders().add(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);</span>
-<span class="nc" id="L47">        response.getHeaders().add(&quot;Access-Control-Allow-Methods&quot;,</span>
-                &quot;GET, POST, PUT, DELETE, OPTIONS, HEAD&quot;);
-
-<span class="nc" id="L50">        return response;</span>
-    }
-
-    @Override
-    public void filter(ContainerRequestContext crc, ContainerResponseContext crc1) throws IOException {
-<span class="nc" id="L55">        Logger.getLogger(&quot;com.example&quot;).log( Level.INFO, &quot;before: {0}&quot;, crc1.getHeaders());</span>
-<span class="nc" id="L56">        crc1.getHeaders().add(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span>
-<span class="nc" id="L57">        crc1.getHeaders().add(&quot;Access-Control-Allow-Headers&quot;, &quot;origin, content-type, accept, authorization&quot;);</span>
-<span class="nc" id="L58">        crc1.getHeaders().add(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);</span>
-<span class="nc" id="L59">        crc1.getHeaders().add(&quot;Access-Control-Allow-Methods&quot;, &quot;GET, POST, PUT, DELETE, OPTIONS, HEAD&quot;);</span>
-<span class="nc" id="L60">        crc1.getHeaders().add(&quot;Access-Control-Max-Age&quot;, &quot;1209600&quot;);</span>
-<span class="nc" id="L61">        Logger.getLogger(&quot;com.example&quot;).log( Level.INFO, &quot;after: {0}&quot;, crc1.getHeaders());</span>
-<span class="nc" id="L62">    }</span>
+//    public ContainerResponse filter(ContainerRequest request,
+//            ContainerResponse response) {
+//
+//        response.getHeaders().add(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+//        response.getHeaders().add(&quot;Access-Control-Allow-Headers&quot;,
+//                &quot;origin, content-type, accept, authorization&quot;);
+//        response.getHeaders().add(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);
+//        response.getHeaders().add(&quot;Access-Control-Allow-Methods&quot;,
+//                &quot;GET, POST, PUT, DELETE, OPTIONS, HEAD&quot;);
+//
+//        return response;
+//    }
+//    @Override
+//    public void filter(ContainerRequestContext crc, ContainerResponseContext crc1) throws IOException {
+//        Logger.getLogger(&quot;com.example&quot;).log(Level.INFO, &quot;before: {0}&quot;, crc1.getHeaders());
+//        crc1.getHeaders().add(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+//        crc1.getHeaders().add(&quot;Access-Control-Allow-Headers&quot;, &quot;origin, content-type, accept, authorization&quot;);
+//        crc1.getHeaders().add(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);
+//        crc1.getHeaders().add(&quot;Access-Control-Allow-Methods&quot;, &quot;GET, POST, PUT, DELETE, OPTIONS, HEAD&quot;);
+//        crc1.getHeaders().add(&quot;Access-Control-Max-Age&quot;, &quot;1209600&quot;);
+//        Logger.getLogger(&quot;com.example&quot;).log(Level.INFO, &quot;after: {0}&quot;, crc1.getHeaders());
+//    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

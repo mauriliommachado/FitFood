@@ -5,6 +5,7 @@
  */
 package model;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.JsonAdapter;
 import java.io.Serializable;
 import java.util.List;
@@ -68,98 +69,98 @@ public class Filial implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = &quot;codFilial&quot;)
     private List&lt;Produto&gt; produtoList;
 
-<span class="fc" id="L71">    public Filial() {</span>
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L72">    public Filial() {</span>
+<span class="fc" id="L73">    }</span>
 
-<span class="nc" id="L74">    public Filial(Integer codFilial) {</span>
-<span class="nc" id="L75">        this.codFilial = codFilial;</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc" id="L75">    public Filial(Integer codFilial) {</span>
+<span class="nc" id="L76">        this.codFilial = codFilial;</span>
+<span class="nc" id="L77">    }</span>
 
-<span class="nc" id="L78">    public Filial(Integer codFilial, String filRazaoSocial) {</span>
-<span class="nc" id="L79">        this.codFilial = codFilial;</span>
-<span class="nc" id="L80">        this.filRazaoSocial = filRazaoSocial;</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L79">    public Filial(Integer codFilial, String filRazaoSocial) {</span>
+<span class="nc" id="L80">        this.codFilial = codFilial;</span>
+<span class="nc" id="L81">        this.filRazaoSocial = filRazaoSocial;</span>
+<span class="nc" id="L82">    }</span>
 
     public Integer getCodFilial() {
-<span class="fc" id="L84">        return codFilial;</span>
+<span class="fc" id="L85">        return codFilial;</span>
     }
 
     public void setCodFilial(Integer codFilial) {
-<span class="fc" id="L88">        this.codFilial = codFilial;</span>
-<span class="fc" id="L89">    }</span>
+<span class="fc" id="L89">        this.codFilial = codFilial;</span>
+<span class="fc" id="L90">    }</span>
 
     public String getFilNumero() {
-<span class="fc" id="L92">        return filNumero;</span>
+<span class="fc" id="L93">        return filNumero;</span>
     }
 
     public void setFilNumero(String filNumero) {
-<span class="fc" id="L96">        this.filNumero = filNumero;</span>
-<span class="fc" id="L97">    }</span>
+<span class="fc" id="L97">        this.filNumero = filNumero;</span>
+<span class="fc" id="L98">    }</span>
 
     public String getFilRazaoSocial() {
-<span class="fc" id="L100">        return filRazaoSocial;</span>
+<span class="fc" id="L101">        return filRazaoSocial;</span>
     }
 
     public void setFilRazaoSocial(String filRazaoSocial) {
-<span class="fc" id="L104">        this.filRazaoSocial = filRazaoSocial;</span>
-<span class="fc" id="L105">    }</span>
+<span class="fc" id="L105">        this.filRazaoSocial = filRazaoSocial;</span>
+<span class="fc" id="L106">    }</span>
 
     public String getFilNomeFantasia() {
-<span class="nc" id="L108">        return filNomeFantasia;</span>
+<span class="fc" id="L109">        return filNomeFantasia;</span>
     }
 
     public void setFilNomeFantasia(String filNomeFantasia) {
-<span class="fc" id="L112">        this.filNomeFantasia = filNomeFantasia;</span>
-<span class="fc" id="L113">    }</span>
+<span class="fc" id="L113">        this.filNomeFantasia = filNomeFantasia;</span>
+<span class="fc" id="L114">    }</span>
 
     public String getFilIE() {
-<span class="nc" id="L116">        return filIE;</span>
+<span class="fc" id="L117">        return filIE;</span>
     }
 
     public void setFilIE(String filIE) {
-<span class="fc" id="L120">        this.filIE = filIE;</span>
-<span class="fc" id="L121">    }</span>
+<span class="fc" id="L121">        this.filIE = filIE;</span>
+<span class="fc" id="L122">    }</span>
 
     public Empresa getCodEmpresa() {
-<span class="nc" id="L124">        return codEmpresa;</span>
+<span class="fc" id="L125">        return codEmpresa;</span>
     }
 
     public void setCodEmpresa(Empresa codEmpresa) {
-<span class="fc" id="L128">        this.codEmpresa = codEmpresa;</span>
-<span class="fc" id="L129">    }</span>
+<span class="fc" id="L129">        this.codEmpresa = codEmpresa;</span>
+<span class="fc" id="L130">    }</span>
 
     @XmlTransient
     public List&lt;Produto&gt; getProdutoList() {
-<span class="nc" id="L133">        return produtoList;</span>
+<span class="nc" id="L134">        return produtoList;</span>
     }
 
     public void setProdutoList(List&lt;Produto&gt; produtoList) {
-<span class="nc" id="L137">        this.produtoList = produtoList;</span>
-<span class="nc" id="L138">    }</span>
+<span class="fc" id="L138">        this.produtoList = produtoList;</span>
+<span class="fc" id="L139">    }</span>
 
     @Override
     public int hashCode() {
-<span class="nc" id="L142">        int hash = 0;</span>
-<span class="nc bnc" id="L143" title="All 2 branches missed.">        hash += (codFilial != null ? codFilial.hashCode() : 0);</span>
-<span class="nc" id="L144">        return hash;</span>
+<span class="fc" id="L143">        int hash = 0;</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        hash += (codFilial != null ? codFilial.hashCode() : 0);</span>
+<span class="fc" id="L145">        return hash;</span>
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (!(object instanceof Filial)) {</span>
-<span class="nc" id="L151">            return false;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (!(object instanceof Filial)) {</span>
+<span class="nc" id="L152">            return false;</span>
         }
-<span class="nc" id="L153">        Filial other = (Filial) object;</span>
-<span class="nc bnc" id="L154" title="All 8 branches missed.">        if ((this.codFilial == null &amp;&amp; other.codFilial != null) || (this.codFilial != null &amp;&amp; !this.codFilial.equals(other.codFilial))) {</span>
-<span class="nc" id="L155">            return false;</span>
+<span class="nc" id="L154">        Filial other = (Filial) object;</span>
+<span class="nc bnc" id="L155" title="All 8 branches missed.">        if ((this.codFilial == null &amp;&amp; other.codFilial != null) || (this.codFilial != null &amp;&amp; !this.codFilial.equals(other.codFilial))) {</span>
+<span class="nc" id="L156">            return false;</span>
         }
-<span class="nc" id="L157">        return true;</span>
+<span class="nc" id="L158">        return true;</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L162">        return &quot;model.Filial[ codFilial=&quot; + codFilial + &quot; ]&quot;;</span>
+<span class="fc" id="L163">        return new Gson().toJson(this);</span>
     }
     
 }
