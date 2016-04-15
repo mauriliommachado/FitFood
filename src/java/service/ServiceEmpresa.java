@@ -6,7 +6,9 @@
 package service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import control.ControleEmpresa;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
@@ -47,10 +49,7 @@ public class ServiceEmpresa {
     public String getEmpresa(@PathParam("idEmpresa") int id) {
         Empresa empresa = ControleEmpresa.busca(id);
         if (empresa != null) {
-            for (Filial fil : empresa.getFilialList()) {
-                fil.setProdutoList(null);
-                fil.setCodEmpresa(null);
-            }
+            ControleEmpresa.limpaEmpresa(empresa);
         }
         return gson.toJson(empresa != null ? empresa : false);
     }
@@ -59,31 +58,40 @@ public class ServiceEmpresa {
     @Path("busca")
     @Produces(MediaType.APPLICATION_JSON)
     public String getEmpresas() {
-        List<Empresa> listaEpresa = ControleEmpresa.busca();
-        for (Empresa empresa : listaEpresa) {
-            for (Filial fil : empresa.getFilialList()) {
-                fil.setCodEmpresa(null);
-            }
-        }
-        return gson.toJson(listaEpresa);
+        List<Empresa> listaEmpresa = ControleEmpresa.busca();
+        return gson.toJson(ControleEmpresa.limpaEmpresa(listaEmpresa));
     }
 
     @PUT
     @Path("grava")
     @Consumes(MediaType.APPLICATION_JSON)
     public String putEmpresa(String content) {
-        Empresa empresa = gson.fromJson(content, Empresa.class);
-        ControleEmpresa.gravar(empresa.getCodEmpresa(), empresa.getEmpCNPJ());
-        return gson.toJson(empresa);
+        Empresa empresa;
+        int cod;
+        if (content.isEmpty()) {
+            return null;
+        }
+        try {
+            empresa = gson.fromJson(content, Empresa.class);
+        } catch (JsonSyntaxException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        if (empresa.getCodEmpresa() == null) {
+            cod = ControleEmpresa.gravar(0, empresa.getEmpCNPJ());
+        } else {
+            cod = ControleEmpresa.gravar(empresa.getCodEmpresa(), empresa.getEmpCNPJ());
+        }
+        return gson.toJson(ControleEmpresa.limpaEmpresa(ControleEmpresa.busca(cod)));
     }
 
     @GET
     @Path("delete/{idEmpresa}")
     public String deleta(@PathParam("idEmpresa") int id) {
         if (ControleEmpresa.deleta(id)) {
-            return gson.toJson(false);
+            return gson.toJson(true);
         }
-        return gson.toJson(true);
+        return gson.toJson(false);
 
     }
 }

@@ -18,10 +18,27 @@ public abstract class ControleEmpresa {
 
     static DAO dao = new JpaEmpresasDAO();
 
+    public static List<Empresa> limpaEmpresa(List<Empresa> list) {
+        for (Empresa empresa : list) {
+            setNull(empresa);
+        }
+        return list;
+    }
+
+    private static void setNull(Empresa empresa) {
+        empresa.setFilialList(null);
+        empresa.setPessoaList(null);
+    }
+
+    public static Empresa limpaEmpresa(Empresa empresa) {
+        setNull(empresa);
+        return empresa;
+    }
+
     public static int gravar(int cod, String cnpj) {
         Empresa empresa = busca(cod);
-        if (empresa==null) {
-            empresa=new Empresa();
+        if (empresa == null) {
+            empresa = new Empresa();
         }
         empresa.setEmpCNPJ(cnpj);
         dao.gravar(empresa);
@@ -35,10 +52,10 @@ public abstract class ControleEmpresa {
     public static List<Empresa> busca() {
         return dao.listarTodos();
     }
-    
-    public static boolean deleta(int cod){
+
+    public static boolean deleta(int cod) {
         Empresa empresa = busca(cod);
-        if (empresa==null ) {
+        if (empresa == null) {
             return false;
         }
         dao.excluir(empresa);
