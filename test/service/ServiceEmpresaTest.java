@@ -26,7 +26,7 @@ public class ServiceEmpresaTest {
     static int codEmpresa;
     Gson gson = new Gson();
     private static List<Integer> idsGerados;
-    
+
     public ServiceEmpresaTest() {
         idsGerados = new ArrayList<>();
 
@@ -34,12 +34,12 @@ public class ServiceEmpresaTest {
 
     @BeforeClass
     public static void setUpClass() {
-        
+
     }
 
     @AfterClass
     public static void tearDownClass() {
-        for(int i : idsGerados){
+        for (int i : idsGerados) {
             ControleEmpresa.deleta(i);
         }
     }
@@ -49,7 +49,7 @@ public class ServiceEmpresaTest {
         if (ControleEmpresa.busca().isEmpty()) {
             ControleEmpresa.gravar(0, "16383345000101");
         }
-        codEmpresa= ControleEmpresa.busca().get(ControleEmpresa.busca().size()-1).getCodEmpresa();
+        codEmpresa = ControleEmpresa.busca().get(ControleEmpresa.busca().size() - 1).getCodEmpresa();
     }
 
     @After
@@ -78,7 +78,7 @@ public class ServiceEmpresaTest {
         String result = instance.getEmpresa(id);
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testGetEmpresaComRetorno() {
         ServiceEmpresa instance = new ServiceEmpresa();
@@ -109,7 +109,7 @@ public class ServiceEmpresaTest {
         String result = instance.putEmpresa(content);
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testPutEmpresaErrado() {
         String content = "12";
@@ -118,17 +118,17 @@ public class ServiceEmpresaTest {
         String result = instance.putEmpresa(content);
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testPutEmpresaAltera() {
-        String content = "{\"codEmpresa\":"+codEmpresa+",\"empCNPJ\":\"16383345000109\"}";
-        Empresa emp = gson.fromJson(content, Empresa.class);
+        String content = "{\"codEmpresa\":" + codEmpresa + ",\"empCNPJ\":\"1283345000109\"}";
         ServiceEmpresa instance = new ServiceEmpresa();
-        String expResult = gson.toJson(emp);
         String result = instance.putEmpresa(content);
+        Empresa emp = ControleEmpresa.busca(codEmpresa);
+        String expResult = ControleEmpresa.limpaEmpresa(emp).toString();
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testPutEmpresaGrava() {
         String content = "{\"empCNPJ\":\"16383345000123\"}";
@@ -136,7 +136,7 @@ public class ServiceEmpresaTest {
         String result = instance.putEmpresa(content);
         Integer expResult = gson.fromJson(result, Empresa.class).getCodEmpresa();
         idsGerados.add(expResult);
-        assertEquals(true, expResult>0);
+        assertEquals(true, expResult > 0);
     }
 
     /**
@@ -150,7 +150,7 @@ public class ServiceEmpresaTest {
         String result = instance.deleta(id);
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testDeletaConsegue() {
         int id = codEmpresa;

@@ -6,7 +6,6 @@
 package service;
 
 import com.google.gson.JsonObject;
-import javax.ws.rs.HttpMethod;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,7 +43,6 @@ public class ServiceLoginTest {
      */
     @Test
     public void testGetText() {
-        System.out.println("Home Login");
         ServiceLogin instance = new ServiceLogin();
         String expResult = "Hello";
         String result = instance.getText();
@@ -56,7 +54,6 @@ public class ServiceLoginTest {
      */
     @Test
     public void testGetStatus() {
-        System.out.println("getStatus");
         ServiceLogin instance = new ServiceLogin();
         JsonObject json = new JsonObject();
         json.addProperty("status", 1);

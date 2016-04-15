@@ -54,7 +54,6 @@ public class ControleEmpresaTest {
      */
     @Test
     public void testGravar() {
-        System.out.println("gravar");
         int cod = 0;
         String cnpj = "16383345000101";
         int result = ControleEmpresa.gravar(cod, cnpj);
@@ -67,7 +66,6 @@ public class ControleEmpresaTest {
 
     @Test
     public void testAlterar() {
-        System.out.println("alterar");
         int cod = 0;
         String cnpj = "16383345000101";
         int result = ControleEmpresa.gravar(cod, cnpj);
@@ -83,7 +81,6 @@ public class ControleEmpresaTest {
      */
     @Test
     public void testBuscaSemResultado() {
-        System.out.println("busca");
         int cod = 0;
         Empresa expResult = null;
         Empresa result = ControleEmpresa.busca(cod);
@@ -92,7 +89,6 @@ public class ControleEmpresaTest {
     
     @Test
     public void testBuscaComResultado() {
-        System.out.println("busca");
         int cod = 0;
         String cnpj = "16383345000101";
         int id = ControleEmpresa.gravar(cod, cnpj);
@@ -107,7 +103,6 @@ public class ControleEmpresaTest {
      */
     @Test
     public void testBusca_0args() {
-        System.out.println("busca");
         List<Empresa> result = ControleEmpresa.busca();
         assertSame(result.size() > 0, true);
     }
@@ -117,7 +112,6 @@ public class ControleEmpresaTest {
      */
     @Test
     public void testDeleta() {
-        System.out.println("deleta");
         int cod = 0;
         String cnpj = "16383345000101";
         int id = ControleEmpresa.gravar(cod, cnpj);
@@ -129,7 +123,6 @@ public class ControleEmpresaTest {
     
     @Test
     public void testDeletaNulo() {
-        System.out.println("deleta");
         int cod = 0;
         boolean expResult = false;
         boolean result = ControleEmpresa.deleta(cod);

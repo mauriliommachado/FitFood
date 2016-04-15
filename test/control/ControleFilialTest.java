@@ -30,10 +30,7 @@ public class ControleFilialTest {
 
     @BeforeClass
     public static void setUpClass() {
-        if (ControleEmpresa.busca().isEmpty()) {
-            ControleEmpresa.gravar(0, "16383345000101");
-        }
-        codEmpresa= ControleEmpresa.busca().get(ControleEmpresa.busca().size()-1).getCodEmpresa();
+        
     }
 
     @AfterClass
@@ -41,10 +38,15 @@ public class ControleFilialTest {
         for(int i : idsGerados){
             ControleFilial.deleta(i);
         }
+        ControleEmpresa.deleta(codEmpresa);
     }
 
     @Before
     public void setUp() {
+        if (ControleEmpresa.busca().isEmpty()) {
+            ControleEmpresa.gravar(0, "16383345000101");
+        }
+        codEmpresa= ControleEmpresa.busca().get(ControleEmpresa.busca().size()-1).getCodEmpresa();
         
     }
 
@@ -58,7 +60,6 @@ public class ControleFilialTest {
      */
     @Test
     public void testGravar() {
-        System.out.println("gravar");
         int cod = 0;
         String razaoSocial = "teste";
         String nomeFantasia = "teste";
@@ -73,7 +74,6 @@ public class ControleFilialTest {
 
     @Test
     public void testAlterar() {
-        System.out.println("Alterar");
         int cod = 0;
         String razaoSocial = "teste";
         String nomeFantasia = "teste";
@@ -92,7 +92,6 @@ public class ControleFilialTest {
      */
     @Test
     public void testBuscaSemResultado() {
-        System.out.println("busca");
         int cod = 0;
         Filial expResult = null;
         Filial result = ControleFilial.busca(cod);
@@ -101,7 +100,6 @@ public class ControleFilialTest {
     
     @Test
     public void testBuscaComResultado() {
-        System.out.println("busca");
         int cod = 0;
         String razaoSocial = "teste";
         String nomeFantasia = "teste";
@@ -119,7 +117,6 @@ public class ControleFilialTest {
      */
     @Test
     public void testBusca_0args() {
-        System.out.println("buscaTodos");
         testGravar();
         List<Filial> result = ControleFilial.busca();
         assertEquals(true, result.size() > 0);
@@ -130,7 +127,6 @@ public class ControleFilialTest {
      */
     @Test
     public void testDeletaSemResultado() {
-        System.out.println("deleta");
         int cod = 0;
         boolean expResult = false;
         boolean result = ControleFilial.deleta(cod);
@@ -139,7 +135,6 @@ public class ControleFilialTest {
     
     @Test
     public void testDeletaComResultado() {
-        System.out.println("deleta");
         int cod = 0;
         String razaoSocial = "teste";
         String nomeFantasia = "teste";
