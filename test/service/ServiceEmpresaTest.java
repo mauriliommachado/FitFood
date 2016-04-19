@@ -46,10 +46,8 @@ public class ServiceEmpresaTest {
 
     @Before
     public void setUp() {
-        if (ControleEmpresa.busca().isEmpty()) {
-            ControleEmpresa.gravar(0, "16383345000101");
-        }
-        codEmpresa = ControleEmpresa.busca().get(ControleEmpresa.busca().size() - 1).getCodEmpresa();
+        codEmpresa = ControleEmpresa.gravar(0, "16383345000101");
+
     }
 
     @After

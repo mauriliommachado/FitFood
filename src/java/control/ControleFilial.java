@@ -5,7 +5,9 @@
  */
 package control;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Empresa;
 import model.dao.DAO;
 import model.Filial;
@@ -19,7 +21,7 @@ public abstract class ControleFilial {
 
     static DAO dao = new JpaFilialDAO();
 
-    public static int gravar(int cod, String razaoSocial, String nomeFantasia, String ie, String numero, int codEmpresa) {
+    public static int gravar(int cod, String razaoSocial, String nomeFantasia, String ie, String numero,boolean ativo, int codEmpresa) {
         Filial filial = busca(cod);
         if (filial == null) {
             filial = new Filial();
@@ -31,12 +33,19 @@ public abstract class ControleFilial {
         filial.setFilNomeFantasia(nomeFantasia);
         filial.setFilNumero(numero);
         filial.setCodEmpresa(empresa);
+        filial.setFilAtiva(ativo);
         dao.gravar(filial);
         return filial.getCodFilial();
     }
 
     public static Filial busca(int cod) {
         return (Filial) dao.busca(cod);
+    }
+    
+    public static List<Filial> buscaPorEmpresa(int cod) {
+        Map<String,Empresa> map = new HashMap<>();
+        map.put("codEmpresa", ControleEmpresa.busca(cod));
+        return dao.findByNamedQuery("Filial.findByCodEmpresa", map, 0);
     }
 
     public static List<Filial> busca() {

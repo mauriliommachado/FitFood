@@ -37,12 +37,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Filial.findAll", query = "SELECT f FROM Filial f"),
+    @NamedQuery(name = "Filial.findByCodEmpresa", query = "SELECT f FROM Filial f WHERE f.codEmpresa = :codEmpresa"),
     @NamedQuery(name = "Filial.findByCodFilial", query = "SELECT f FROM Filial f WHERE f.codFilial = :codFilial"),
     @NamedQuery(name = "Filial.findByFilNumero", query = "SELECT f FROM Filial f WHERE f.filNumero = :filNumero"),
     @NamedQuery(name = "Filial.findByFilRazaoSocial", query = "SELECT f FROM Filial f WHERE f.filRazaoSocial = :filRazaoSocial"),
     @NamedQuery(name = "Filial.findByFilNomeFantasia", query = "SELECT f FROM Filial f WHERE f.filNomeFantasia = :filNomeFantasia"),
     @NamedQuery(name = "Filial.findByFilIE", query = "SELECT f FROM Filial f WHERE f.filIE = :filIE")})
 public class Filial implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "filAtiva")
+    private boolean filAtiva;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -161,6 +166,14 @@ public class Filial implements Serializable {
     @Override
     public String toString() {
         return new Gson().toJson(this);
+    }
+
+    public boolean getFilAtiva() {
+        return filAtiva;
+    }
+
+    public void setFilAtiva(boolean filAtiva) {
+        this.filAtiva = filAtiva;
     }
     
 }

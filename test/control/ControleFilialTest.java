@@ -30,12 +30,12 @@ public class ControleFilialTest {
 
     @BeforeClass
     public static void setUpClass() {
-        
+
     }
 
     @AfterClass
     public static void tearDownClass() {
-        for(int i : idsGerados){
+        for (int i : idsGerados) {
             ControleFilial.deleta(i);
         }
         ControleEmpresa.deleta(codEmpresa);
@@ -43,16 +43,13 @@ public class ControleFilialTest {
 
     @Before
     public void setUp() {
-        if (ControleEmpresa.busca().isEmpty()) {
-            ControleEmpresa.gravar(0, "16383345000101");
-        }
-        codEmpresa= ControleEmpresa.busca().get(ControleEmpresa.busca().size()-1).getCodEmpresa();
-        
+        codEmpresa = ControleEmpresa.gravar(0, "16383345000101");
+
     }
 
     @After
     public void tearDown() {
-        
+
     }
 
     /**
@@ -66,9 +63,9 @@ public class ControleFilialTest {
         String ie = "123";
         String numero = "123";
         List<Filial> list = ControleFilial.busca();
-        int result = ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero, codEmpresa);
+        int result = ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero,true, codEmpresa);
         idsGerados.add(result);
-        assertEquals(list.size()+1, ControleFilial.busca().size());
+        assertEquals(list.size() + 1, ControleFilial.busca().size());
         assertEquals(razaoSocial, ControleFilial.busca(result).getFilRazaoSocial());
     }
 
@@ -79,10 +76,10 @@ public class ControleFilialTest {
         String nomeFantasia = "teste";
         String ie = "123";
         String numero = "123";
-        Filial fil = ControleFilial.busca(ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero, codEmpresa));
+        Filial fil = ControleFilial.busca(ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero,true, codEmpresa));
         numero = "1234";
         String expResult = numero;
-        int result = ControleFilial.gravar(fil.getCodFilial(), razaoSocial, nomeFantasia, ie, numero, codEmpresa);
+        int result = ControleFilial.gravar(fil.getCodFilial(), razaoSocial, nomeFantasia, ie, numero,true, codEmpresa);
         idsGerados.add(result);
         assertEquals(expResult, ControleFilial.busca(result).getFilNumero());
     }
@@ -97,7 +94,7 @@ public class ControleFilialTest {
         Filial result = ControleFilial.busca(cod);
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testBuscaComResultado() {
         int cod = 0;
@@ -105,7 +102,7 @@ public class ControleFilialTest {
         String nomeFantasia = "teste";
         String ie = "123";
         String numero = "123";
-        int resultado = ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero, codEmpresa);
+        int resultado = ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero,true, codEmpresa);
         idsGerados.add(resultado);
         Integer expResult = resultado;
         Filial result = ControleFilial.busca(resultado);
@@ -117,8 +114,13 @@ public class ControleFilialTest {
      */
     @Test
     public void testBusca_0args() {
-        testGravar();
         List<Filial> result = ControleFilial.busca();
+        assertEquals(true, result.size() > 0);
+    }
+
+    @Test
+    public void testBuscaPorEmpresa() {
+        List<Filial> result = ControleFilial.buscaPorEmpresa(101);
         assertEquals(true, result.size() > 0);
     }
 
@@ -132,7 +134,7 @@ public class ControleFilialTest {
         boolean result = ControleFilial.deleta(cod);
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testDeletaComResultado() {
         int cod = 0;
@@ -140,7 +142,7 @@ public class ControleFilialTest {
         String nomeFantasia = "teste";
         String ie = "123";
         String numero = "123";
-        int resultado = ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero, codEmpresa);
+        int resultado = ControleFilial.gravar(cod, razaoSocial, nomeFantasia, ie, numero,true, codEmpresa);
         idsGerados.add(resultado);
         boolean expResult = true;
         boolean result = ControleFilial.deleta(resultado);

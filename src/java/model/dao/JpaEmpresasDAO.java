@@ -6,6 +6,7 @@
 package model.dao;
 
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import model.Empresa;
@@ -55,5 +56,11 @@ public class JpaEmpresasDAO implements DAO<Empresa>{
         em.getTransaction().commit();
         em.close();
     }
+
+    @Override
+    public List<Empresa> findByNamedQuery(String s, Map<String, Object> map, int maxResults) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

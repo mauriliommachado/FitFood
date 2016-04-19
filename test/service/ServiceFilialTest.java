@@ -39,24 +39,19 @@ public class ServiceFilialTest {
 
     @AfterClass
     public static void tearDownClass() {
-        for(int id :idsGerados){
+        for (int id : idsGerados) {
             ControleFilial.deleta(id);
         }
         ControleEmpresa.deleta(codEmpresa);
         ControleFilial.deleta(codFilial);
-        
+
     }
 
     @Before
     public void setUp() {
-        if (ControleEmpresa.busca().isEmpty()) {
-            ControleEmpresa.gravar(0, "16383345000101");
-        }
-        codEmpresa = ControleEmpresa.busca().get(ControleEmpresa.busca().size() - 1).getCodEmpresa();
-        if (ControleFilial.busca().isEmpty()) {
-            ControleFilial.gravar(0, "teste", "teste", "123", "123", codEmpresa);
-        }
-        codFilial = ControleFilial.busca().get(ControleFilial.busca().size() - 1).getCodFilial();
+        codEmpresa = ControleEmpresa.gravar(0, "16383345000101");
+        codFilial = ControleFilial.gravar(0, "teste", "teste", "123", "123",true, codEmpresa);
+
     }
 
     @After

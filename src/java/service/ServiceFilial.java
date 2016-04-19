@@ -7,7 +7,6 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import control.ControleEmpresa;
 import control.ControleFilial;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -52,6 +51,17 @@ public class ServiceFilial {
         }
         return gson.toJson(filial != null ? filial : false);
     }
+    
+    @GET
+    @Path("buscaPorEmpresa/{idEmpresa}")
+    @Produces("application/json")
+    public String getFiliaisPorEmpresa(@PathParam("idEmpresa") int id) {
+        List<Filial> filial = ControleFilial.buscaPorEmpresa(id);
+        if (filial != null) {
+            filial = ControleFilial.limpaFilial(filial);
+        }
+        return gson.toJson(filial != null ? filial : null);
+    }
 
     @GET
     @Path("busca")
@@ -77,9 +87,9 @@ public class ServiceFilial {
             return null;
         }
         if (filial.getCodFilial()== null) {
-            cod = ControleFilial.gravar(0, filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());
+            cod = ControleFilial.gravar(0, filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(),filial.getFilAtiva(), filial.getCodEmpresa().getCodEmpresa());
         } else {
-            cod = ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getCodEmpresa().getCodEmpresa());
+            cod = ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(),filial.getFilAtiva(), filial.getCodEmpresa().getCodEmpresa());
         }
         return gson.toJson(ControleFilial.limpaFilial(ControleFilial.busca(cod)));
     }
