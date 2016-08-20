@@ -5,7 +5,6 @@
  */
 package model;
 
-import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -19,14 +18,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Maurílio
+ * @author mauri
  */
 @Entity
 @Table(name = "empresa")
@@ -36,20 +34,24 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Empresa.findByCodEmpresa", query = "SELECT e FROM Empresa e WHERE e.codEmpresa = :codEmpresa"),
     @NamedQuery(name = "Empresa.findByEmpCNPJ", query = "SELECT e FROM Empresa e WHERE e.empCNPJ = :empCNPJ")})
 public class Empresa implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codEmpresa")
+    private List<Marca> marcaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codEmpresa")
+    private List<Categoria> categoriaList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Cod_Empresa")
     private Integer codEmpresa;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 14)
+    @Size(max = 255)
     @Column(name = "empCNPJ")
     private String empCNPJ;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codEmpresa")
+    @OneToMany(mappedBy = "codEmpresa")
     private List<Filial> filialList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codEmpresa")
+    @OneToMany(mappedBy = "codEmpresa")
     private List<Pessoa> pessoaList;
 
     public Empresa() {
@@ -57,11 +59,6 @@ public class Empresa implements Serializable {
 
     public Empresa(Integer codEmpresa) {
         this.codEmpresa = codEmpresa;
-    }
-
-    public Empresa(Integer codEmpresa, String empCNPJ) {
-        this.codEmpresa = codEmpresa;
-        this.empCNPJ = empCNPJ;
     }
 
     public Integer getCodEmpresa() {
@@ -120,7 +117,25 @@ public class Empresa implements Serializable {
 
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        return "model.dao.Empresa[ codEmpresa=" + codEmpresa + " ]";
+    }
+
+    @XmlTransient
+    public List<Marca> getMarcaList() {
+        return marcaList;
+    }
+
+    public void setMarcaList(List<Marca> marcaList) {
+        this.marcaList = marcaList;
+    }
+
+    @XmlTransient
+    public List<Categoria> getCategoriaList() {
+        return categoriaList;
+    }
+
+    public void setCategoriaList(List<Categoria> categoriaList) {
+        this.categoriaList = categoriaList;
     }
     
 }

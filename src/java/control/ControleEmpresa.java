@@ -8,7 +8,6 @@ package control;
 import java.util.List;
 import model.dao.DAO;
 import model.Empresa;
-import model.Filial;
 import model.dao.JpaEmpresasDAO;
 
 /**
@@ -29,6 +28,8 @@ public abstract class ControleEmpresa {
     private static void setNull(Empresa empresa) {
         empresa.setFilialList(null);
         empresa.setPessoaList(null);
+        empresa.setCategoriaList(null);
+        empresa.setMarcaList(null);
     }
 
     public static Empresa limpaEmpresa(Empresa empresa) {

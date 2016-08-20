@@ -22,7 +22,7 @@ public class FactorySingleton {
     private static FactorySingleton instanceFactory;
     protected static String host = "localhost";
     protected static String porta = "3306";
-    protected static String banco = "fitapp";
+    protected static String banco = "food";
     protected static String user = "root";
     protected static String pwd = "admin";
 

@@ -21,19 +21,19 @@ public abstract class ControleFilial {
 
     static DAO dao = new JpaFilialDAO();
 
-    public static int gravar(int cod, String razaoSocial, String nomeFantasia, String ie, String numero,boolean ativo, int codEmpresa) {
+    public static int gravar(int cod, String razaoSocial, String nomeFantasia, String ie, String numero, boolean ativo, String cnpj,int codEmpresa) {
         Filial filial = busca(cod);
         if (filial == null) {
             filial = new Filial();
         }
-        Empresa empresa = ControleEmpresa.busca(codEmpresa);
+        filial.setCodEmpresa(ControleEmpresa.busca(codEmpresa));
         filial.setCodFilial(cod);
         filial.setFilIE(ie);
         filial.setFilRazaoSocial(razaoSocial);
         filial.setFilNomeFantasia(nomeFantasia);
         filial.setFilNumero(numero);
-        filial.setCodEmpresa(empresa);
         filial.setFilAtiva(ativo);
+        filial.setFilCNPJ(cnpj);
         dao.gravar(filial);
         return filial.getCodFilial();
     }
@@ -41,9 +41,9 @@ public abstract class ControleFilial {
     public static Filial busca(int cod) {
         return (Filial) dao.busca(cod);
     }
-    
+
     public static List<Filial> buscaPorEmpresa(int cod) {
-        Map<String,Empresa> map = new HashMap<>();
+        Map<String, Empresa> map = new HashMap<>();
         map.put("codEmpresa", ControleEmpresa.busca(cod));
         return dao.findByNamedQuery("Filial.findByCodEmpresa", map, 0);
     }
@@ -65,17 +65,25 @@ public abstract class ControleFilial {
         setNull(filial);
         return filial;
     }
-    
+
     public static List<Filial> limpaFilial(List<Filial> filial) {
-        for(Filial fil : filial){
+        for (Filial fil : filial) {
             setNull(fil);
         }
         return filial;
     }
 
     private static void setNull(Filial filial) {
-        filial.setProdutoList(null);
-        ControleEmpresa.limpaEmpresa(filial.getCodEmpresa());
+        try {
+            filial.setProdutoList(null);
+
+            if (filial.getCodEmpresa() != null) {
+                ControleEmpresa.limpaEmpresa(filial.getCodEmpresa());
+            }
+        } catch (Exception ex) {
+
+        }
+
     }
 
 }

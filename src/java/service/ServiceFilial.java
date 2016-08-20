@@ -51,7 +51,7 @@ public class ServiceFilial {
         }
         return gson.toJson(filial != null ? filial : false);
     }
-    
+
     @GET
     @Path("buscaPorEmpresa/{idEmpresa}")
     @Produces("application/json")
@@ -86,10 +86,10 @@ public class ServiceFilial {
             System.out.println(ex);
             return null;
         }
-        if (filial.getCodFilial()== null) {
-            cod = ControleFilial.gravar(0, filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(),filial.getFilAtiva(), filial.getCodEmpresa().getCodEmpresa());
+        if (filial.getCodFilial() == null || filial.getCodFilial() == 0) {
+            cod = ControleFilial.gravar(0, filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getFilAtiva(), filial.getFilCNPJ(),filial.getCodEmpresa().getCodEmpresa());
         } else {
-            cod = ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(),filial.getFilAtiva(), filial.getCodEmpresa().getCodEmpresa());
+            cod = ControleFilial.gravar(filial.getCodFilial(), filial.getFilRazaoSocial(), filial.getFilNomeFantasia(), filial.getFilIE(), filial.getFilNumero(), filial.getFilAtiva(), filial.getFilCNPJ(),filial.getCodEmpresa().getCodEmpresa());
         }
         return gson.toJson(ControleFilial.limpaFilial(ControleFilial.busca(cod)));
     }

@@ -50,7 +50,7 @@ public class ServiceFilialTest {
     @Before
     public void setUp() {
         codEmpresa = ControleEmpresa.gravar(0, "16383345000101");
-        codFilial = ControleFilial.gravar(0, "teste", "teste", "123", "123",true, codEmpresa);
+//        codFilial = ControleFilial.gravar(0, "teste", "teste", "123", "123",true,"1234567890123");
 
     }
 

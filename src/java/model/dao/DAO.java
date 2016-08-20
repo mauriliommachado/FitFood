@@ -7,7 +7,6 @@ package model.dao;
 
 import java.util.List;
 import java.util.Map;
-import javax.persistence.Query;
 
 /**
  *
@@ -20,7 +19,7 @@ public interface DAO<E> {
     public List<E> listarTodos();
     public E busca(int id);
     public void excluir(E entidade);
-    public abstract List<E> findByNamedQuery(String s, Map<String, Object> map, int maxResults);
+    public abstract List<E> findByNamedQuery(String namedQuery, Map<String, Object> namedParams, int maxResults);
 
 
     
