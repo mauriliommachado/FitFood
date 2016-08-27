@@ -27,7 +27,6 @@ public abstract class ControleCategoria {
 
     private static void setNull(Categoria categoria) {
         categoria.setCodEmpresa(null);
-        categoria.setProdutoList(null);
     }
 
     public static Categoria limpaCategoria(Categoria categoria) {
@@ -35,12 +34,13 @@ public abstract class ControleCategoria {
         return categoria;
     }
 
-    public static int gravar(int cod, String descricao) {
+    public static int gravar(int cod, String descricao,int codEmpresa) {
         Categoria categoria = busca(cod);
         if (categoria == null) {
             categoria = new Categoria();
         }
         categoria.setCatDescricao(descricao);
+        categoria.setCodEmpresa(ControleEmpresa.busca(codEmpresa));
         dao.gravar(categoria);
         return categoria.getCodCategoria();
     }

@@ -23,7 +23,6 @@ public abstract class ControlePessoa {
 
     static DAO dao = new JpaPessoaDAO();
 
-    
     public static List<Pessoa> limpaPessoa(List<Pessoa> list) {
         for (Pessoa pessoa : list) {
             setNull(pessoa);
@@ -32,7 +31,9 @@ public abstract class ControlePessoa {
     }
 
     private static void setNull(Pessoa pessoa) {
-        pessoa.setEnderecoList(null);
+        for (Endereco end : pessoa.getEnderecoList()) {
+            end.setCodPessoa(null);
+        }
         pessoa.setCodEmpresa(null);
     }
 
@@ -41,8 +42,8 @@ public abstract class ControlePessoa {
         return pessoa;
     }
 
-    public static int gravar(int codPessoa,int codEmpresa,int tipoPessoa,List<Endereco> listaEndereco,
-            boolean pessoaAtiva,String cpf,Date dtCadastro, String email,boolean pessoaFisica,String nome,String senha,boolean sexo) {
+    public static int gravar(int codPessoa, int codEmpresa, int tipoPessoa, List<Endereco> listaEndereco,
+            boolean pessoaAtiva, String cpf, Date dtCadastro, String email, boolean pessoaFisica, String nome, String senha, boolean sexo) {
         Pessoa pessoa = busca(codPessoa);
         if (pessoa == null) {
             pessoa = new Pessoa();

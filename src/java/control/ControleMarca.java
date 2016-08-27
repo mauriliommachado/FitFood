@@ -27,7 +27,6 @@ public abstract class ControleMarca {
 
     private static void setNull(Marca marca) {
         marca.setCodEmpresa(null);
-        marca.setProdutoList(null);
     }
 
     public static Marca limpaMarca(Marca marca) {
@@ -35,12 +34,13 @@ public abstract class ControleMarca {
         return marca;
     }
 
-    public static int gravar(int cod, String descricao) {
+    public static int gravar(int cod, String descricao,int codEmpresa) {
         Marca marca = busca(cod);
         if (marca == null) {
             marca = new Marca();
         }
         marca.setMarDescricao(descricao);
+        marca.setCodEmpresa(ControleEmpresa.busca(codEmpresa));
         dao.gravar(marca);
         return marca.getCodMarca();
     }

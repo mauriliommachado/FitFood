@@ -21,7 +21,7 @@ public abstract class ControleFilial {
 
     static DAO dao = new JpaFilialDAO();
 
-    public static int gravar(int cod, String razaoSocial, String nomeFantasia, String ie, String numero, boolean ativo, String cnpj,int codEmpresa) {
+    public static int gravar(int cod, String razaoSocial, String nomeFantasia, String ie, String numero, boolean ativo, String cnpj, int codEmpresa) {
         Filial filial = busca(cod);
         if (filial == null) {
             filial = new Filial();
@@ -76,7 +76,7 @@ public abstract class ControleFilial {
     private static void setNull(Filial filial) {
         try {
             filial.setProdutoList(null);
-
+            filial.setPedidoList(null);
             if (filial.getCodEmpresa() != null) {
                 ControleEmpresa.limpaEmpresa(filial.getCodEmpresa());
             }

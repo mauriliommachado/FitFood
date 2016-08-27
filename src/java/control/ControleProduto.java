@@ -9,9 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.Categoria;
 import model.Filial;
-import model.Marca;
 import model.Produto;
 import model.dao.DAO;
 import model.dao.JpaProdutosDAO;
@@ -34,7 +32,7 @@ public abstract class ControleProduto {
 
     private static void setNull(Produto produto) {
         produto.setPedidoList(null);
-        ControleFilial.limpaFilial(produto.getCodFilial());
+        produto.setCodFilial(null);
         ControleCategoria.limpaCategoria(produto.getCodCategoria());
         ControleMarca.limpaMarca(produto.getCodMarca());
         
