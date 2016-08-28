@@ -51,7 +51,6 @@ public abstract class ControlePessoa {
         pessoa.setCodEmpresa(ControleEmpresa.busca(codEmpresa));
         pessoa.setCodPessoa(codPessoa);
         pessoa.setCodTipoPessoa(tipoPessoa);
-        pessoa.setEnderecoList(listaEndereco);
         pessoa.setPesAtivo(pessoaAtiva);
         pessoa.setPesCPF(cpf);
         pessoa.setPesDtCadastro(dtCadastro);
@@ -61,6 +60,10 @@ public abstract class ControlePessoa {
         pessoa.setPesSenha(senha);
         pessoa.setPesSexo(sexo);
         dao.gravar(pessoa);
+        for (Endereco end : listaEndereco) {
+            int codEnd = ControleEndereco.gravar(end.getCodEndereco(), pessoa.getCodPessoa(), end.getEndBairro(), end.getEndCep(), end.getEndCidade(), end.getEndComplemento(), end.getEndLogradouro(), end.getEndNumero(), end.getEndReferencia(), end.getEndUF());
+        }
+        busca(codPessoa);
         return pessoa.getCodPessoa();
     }
 
