@@ -101,6 +101,5 @@ public class ServiceFilial {
             return gson.toJson(true);
         }
         return gson.toJson(false);
-
     }
 }

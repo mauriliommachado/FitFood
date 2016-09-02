@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Marca.findAll", query = "SELECT m FROM Marca m"),
     @NamedQuery(name = "Marca.findByCodMarca", query = "SELECT m FROM Marca m WHERE m.codMarca = :codMarca"),
+    @NamedQuery(name = "Marca.findByCodEmpresa", query = "SELECT m FROM Marca m WHERE m.codEmpresa = :codEmpresa"),
     @NamedQuery(name = "Marca.findByMarDescricao", query = "SELECT m FROM Marca m WHERE m.marDescricao = :marDescricao")})
 public class Marca implements Serializable {
 

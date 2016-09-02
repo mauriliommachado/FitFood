@@ -55,10 +55,10 @@ public class ServicePedido {
     }
 
     @GET
-    @Path("busca")
+    @Path("buscaPorFilial/{idFilial}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPedidos() {
-        List<Pedido> listaPedido = ControlePedido.busca();
+    public String getPedidos(@PathParam("idFilial") int id) {
+        List<Pedido> listaPedido = ControlePedido.buscaPorFilial(id);
         return gson.toJson(ControlePedido.limpaPedido(listaPedido));
     }
 
@@ -78,9 +78,9 @@ public class ServicePedido {
             return null;
         }
         if (pedido.getCodPedido() == null) {
-            cod = ControlePedido.gravar(0, pedido.getCodFilial().getCodFilial(), pedido.getPedDtBaixa(), pedido.getPedDtRealizacao(), pedido.getProdutoList());
+            cod = ControlePedido.gravar(0, pedido.getCodFilial().getCodFilial(), pedido.getPedDtBaixa(), pedido.getPedDtRealizacao(), pedido.getProdutoList(),pedido.getCodTipoPedido(),pedido.getPedStatus());
         } else {
-            cod = ControlePedido.gravar(pedido.getCodPedido(), pedido.getCodFilial().getCodFilial(), pedido.getPedDtBaixa(), pedido.getPedDtRealizacao(), pedido.getProdutoList());
+            cod = ControlePedido.gravar(pedido.getCodPedido(), pedido.getCodFilial().getCodFilial(), pedido.getPedDtBaixa(), pedido.getPedDtRealizacao(), pedido.getProdutoList(),pedido.getCodTipoPedido(),pedido.getPedStatus());
         }
         return gson.toJson(ControlePedido.limpaPedido(ControlePedido.busca(cod)));
     }

@@ -21,6 +21,7 @@ public class Resposta implements ContainerResponseFilter {
     @Override
     public void filter(ContainerRequestContext request,
             ContainerResponseContext response) throws IOException {
+        String txt =request.getHeaderString("authorization");
         response.getHeaders().add("Access-Control-Allow-Origin", "*");
         response.getHeaders().add("Access-Control-Allow-Headers",
                 "origin, content-type, accept, authorization");

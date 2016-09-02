@@ -89,4 +89,8 @@ public abstract class ControlePessoa {
         map.put("codEmpresa", ControleEmpresa.busca(codEmpresa));
         return dao.findByNamedQuery("Pessoa.findByCodEmpresa", map, 0);
     }
+
+    public static Pessoa authentification(String string, String string0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

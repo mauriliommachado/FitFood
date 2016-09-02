@@ -17,11 +17,14 @@ import com.google.gson.JsonSyntaxException;
 import control.ControlePessoa;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -68,15 +71,14 @@ public class ServicePessoa {
     @GET
     @Path("buscaPorEmpresa/{idEmpresa}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPessoasPorEmpresa(@PathParam("idEmpresa")int codEmpresa) {
+    public String getPessoasPorEmpresa(@PathParam("idEmpresa") int codEmpresa) {
         List<Pessoa> listaPessoa = ControlePessoa.buscaPorEmpresa(codEmpresa);
         return gson.toJson(ControlePessoa.limpaPessoa(listaPessoa));
     }
-    
 
     @PUT
     @Path("grava")
-    @Consumes({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public String putPessoa(String content) {
         Pessoa pessoa;
         int cod;
@@ -89,10 +91,10 @@ public class ServicePessoa {
             System.out.println(ex);
             return null;
         }
-        if (pessoa.getCodPessoa()==0) {
-            cod = ControlePessoa.gravar(0,pessoa.getCodEmpresa().getCodEmpresa(),pessoa.getCodTipoPessoa(),pessoa.getEnderecoList(),pessoa.getPesAtivo(),pessoa.getPesCPF(),new Date(),pessoa.getPesEmail(),pessoa.getPesFisica(),pessoa.getPesNome(),pessoa.getPesSenha(),pessoa.getPesSexo());
+        if (pessoa.getCodPessoa() == 0) {
+            cod = ControlePessoa.gravar(0, pessoa.getCodEmpresa().getCodEmpresa(), pessoa.getCodTipoPessoa(), pessoa.getEnderecoList(), pessoa.getPesAtivo(), pessoa.getPesCPF(), new Date(), pessoa.getPesEmail(), pessoa.getPesFisica(), pessoa.getPesNome(), pessoa.getPesSenha(), pessoa.getPesSexo());
         } else {
-            cod = ControlePessoa.gravar(pessoa.getCodPessoa(),pessoa.getCodEmpresa().getCodEmpresa(),pessoa.getCodTipoPessoa(),pessoa.getEnderecoList(),pessoa.getPesAtivo(),pessoa.getPesCPF(),pessoa.getPesDtCadastro(),pessoa.getPesEmail(),pessoa.getPesFisica(),pessoa.getPesNome(),pessoa.getPesSenha(),pessoa.getPesSexo());
+            cod = ControlePessoa.gravar(pessoa.getCodPessoa(), pessoa.getCodEmpresa().getCodEmpresa(), pessoa.getCodTipoPessoa(), pessoa.getEnderecoList(), pessoa.getPesAtivo(), pessoa.getPesCPF(), pessoa.getPesDtCadastro(), pessoa.getPesEmail(), pessoa.getPesFisica(), pessoa.getPesNome(), pessoa.getPesSenha(), pessoa.getPesSexo());
         }
         return gson.toJson(ControlePessoa.limpaPessoa(ControlePessoa.busca(cod)));
     }
@@ -105,23 +107,32 @@ public class ServicePessoa {
         }
         return gson.toJson(false);
     }
-    
+
 }
 
-class GsonUTCDateAdapter implements JsonSerializer<Date>,JsonDeserializer<Date> {
+class GsonUTCDateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
 
     private final DateFormat dateFormat;
 
     public GsonUTCDateAdapter() {
-      dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());      //This is the format I need
-      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));                               //This is the key line which converts the date to UTC which cannot be accessed with the default serializer
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());      //This is the format I need
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));                               //This is the key line which converts the date to UTC which cannot be accessed with the default serializer
     }
 
-    @Override public synchronized JsonElement serialize(Date date,Type type,JsonSerializationContext jsonSerializationContext) {
+    @Override
+    public synchronized JsonElement serialize(Date date, Type type, JsonSerializationContext jsonSerializationContext) {
         return new JsonPrimitive(dateFormat.format(date));
     }
 
-    @Override public synchronized Date deserialize(JsonElement jsonElement,Type type,JsonDeserializationContext jsonDeserializationContext) {
-        return null;
+    @Override
+    public synchronized Date deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date convertedCurrentDate = null;
+        try {
+            convertedCurrentDate = sdf.parse(jsonElement.getAsString());
+        } catch (ParseException ex) {
+            Logger.getLogger(GsonUTCDateAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return  convertedCurrentDate;
     }
 }

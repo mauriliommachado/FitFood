@@ -5,7 +5,10 @@
  */
 package control;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import model.Empresa;
 import model.dao.DAO;
 import model.Marca;
 import model.dao.JpaMarcaDAO;
@@ -34,7 +37,7 @@ public abstract class ControleMarca {
         return marca;
     }
 
-    public static int gravar(int cod, String descricao,int codEmpresa) {
+    public static int gravar(int cod, String descricao, int codEmpresa) {
         Marca marca = busca(cod);
         if (marca == null) {
             marca = new Marca();
@@ -53,6 +56,12 @@ public abstract class ControleMarca {
         return dao.listarTodos();
     }
 
+    public static List<Marca> buscaPorEmpresa(int cod) {
+        Map<String, Empresa> map = new HashMap<>();
+        map.put("codEmpresa", ControleEmpresa.busca(cod));
+        return dao.findByNamedQuery("Marca.findByCodEmpresa", map, 0);
+    }
+
     public static boolean deleta(int cod) {
         Marca marca = busca(cod);
         if (marca == null) {
@@ -61,6 +70,5 @@ public abstract class ControleMarca {
         dao.excluir(marca);
         return true;
     }
-
 
 }

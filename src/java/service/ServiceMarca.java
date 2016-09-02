@@ -53,10 +53,10 @@ public class ServiceMarca {
     }
 
     @GET
-    @Path("busca")
+    @Path("buscaPorEmpresa/{idEmpresa}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getMarcas() {
-        List<Marca> listaMarca = ControleMarca.busca();
+    public String getMarcas(@PathParam("idEmpresa") int id) {
+        List<Marca> listaMarca = ControleMarca.buscaPorEmpresa(id);
         return gson.toJson(ControleMarca.limpaMarca(listaMarca));
     }
 
