@@ -3,7 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/mauri/OneDrive/Documentos/NetBeansProjects/FitFood/src/java/service/ServiceFilial.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/service/ServiceTelefone.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/model/dao/JpaCategoriaDAO.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/control/ControleTelefone.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/model/dao/JpaTelefoneDAO.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/model/Pessoa.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/control/GraphAdapterBuilder.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/model/dao/DAO.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/control/ControleProduto.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/service/ServicePessoa.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/control/ControlePessoa.java</file>
+            <file>file:/C:/Users/MrPerez/Documents/GitHub/FitFood/src/java/model/Telefone.java</file>
         </group>
     </open-files>
 </project-private>

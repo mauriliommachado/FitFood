@@ -75,6 +75,14 @@ public class ServicePessoa {
         List<Pessoa> listaPessoa = ControlePessoa.buscaPorEmpresa(codEmpresa);
         return gson.toJson(ControlePessoa.limpaPessoa(listaPessoa));
     }
+    
+     @GET
+    @Path("buscaPorTelefone/{numTelefone}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPessoaPorTelefone(@PathParam("numTelefone") String numTelefone) {
+         Pessoa pessoa = ControlePessoa.buscaPorTelefone(numTelefone);
+        return gson.toJson(ControlePessoa.limpaPessoa(pessoa));
+    }
 
     @PUT
     @Path("grava")

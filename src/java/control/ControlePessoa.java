@@ -12,6 +12,7 @@ import java.util.Map;
 import model.Empresa;
 import model.Endereco;
 import model.Pessoa;
+import model.Telefone;
 import model.dao.DAO;
 import model.dao.JpaPessoaDAO;
 
@@ -34,6 +35,7 @@ public abstract class ControlePessoa {
         for (Endereco end : pessoa.getEnderecoList()) {
             end.setCodPessoa(null);
         }
+        ControleTelefone.limpaTelefone(pessoa.getTelefoneList());
         pessoa.setCodEmpresa(null);
     }
 
@@ -89,6 +91,13 @@ public abstract class ControlePessoa {
         map.put("codEmpresa", ControleEmpresa.busca(codEmpresa));
         return dao.findByNamedQuery("Pessoa.findByCodEmpresa", map, 0);
     }
+    
+    public static Pessoa buscaPorTelefone(String telNumero){
+        Map<String, String> map = new HashMap<>();
+        map.put("telNumero",telNumero);
+        return (Pessoa)dao.findByNamedQuery("Pessoa.findByTelNum", map, 0).get(0);
+    }
+    
 
     public static Pessoa authentification(String string, String string0) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

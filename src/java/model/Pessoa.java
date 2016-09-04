@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,9 +45,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pessoa.findByPesEmail", query = "SELECT p FROM Pessoa p WHERE p.pesEmail = :pesEmail"),
     @NamedQuery(name = "Pessoa.findByPesFisica", query = "SELECT p FROM Pessoa p WHERE p.pesFisica = :pesFisica"),
     @NamedQuery(name = "Pessoa.findByPesNome", query = "SELECT p FROM Pessoa p WHERE p.pesNome = :pesNome"),
+    @NamedQuery(name = "Pessoa.findByTelNum", query = "SELECT p FROM Pessoa p JOIN p.telefoneList t WHERE t.telNumero = :telNumero"),
     @NamedQuery(name = "Pessoa.findByPesSenha", query = "SELECT p FROM Pessoa p WHERE p.pesSenha = :pesSenha"),
     @NamedQuery(name = "Pessoa.findByPesSexo", query = "SELECT p FROM Pessoa p WHERE p.pesSexo = :pesSexo")})
 public class Pessoa implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codpessoa")
+    private List<Telefone> telefoneList;
 
     @Size(max = 11)
     @Column(name = "pesCPF")
@@ -213,6 +217,15 @@ public class Pessoa implements Serializable {
 
     public void setPesCPF(String pesCPF) {
         this.pesCPF = pesCPF;
+    }
+
+    @XmlTransient
+    public List<Telefone> getTelefoneList() {
+        return telefoneList;
+    }
+
+    public void setTelefoneList(List<Telefone> telefoneList) {
+        this.telefoneList = telefoneList;
     }
     
 }
