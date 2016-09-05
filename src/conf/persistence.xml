@@ -8,7 +8,6 @@
     <class>model.Filial</class>
     <class>model.Endereco</class>
     <class>model.Pessoa</class>
-    <class>model.Alineas</class>
     <class>model.Marca</class>
     <class>model.Categoria</class>
     <class>model.Telefone</class>

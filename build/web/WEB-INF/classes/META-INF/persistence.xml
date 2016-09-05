@@ -8,9 +8,9 @@
     <class>model.Filial</class>
     <class>model.Endereco</class>
     <class>model.Pessoa</class>
-    <class>model.Alineas</class>
     <class>model.Marca</class>
     <class>model.Categoria</class>
+    <class>model.Telefone</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/food?zeroDateTimeBehavior=convertToNull"/>
