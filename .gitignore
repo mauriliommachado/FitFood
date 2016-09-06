@@ -64,3 +64,4 @@ $RECYCLE.BIN/
 /build/
 /dist/
 *.xml
+*.properties

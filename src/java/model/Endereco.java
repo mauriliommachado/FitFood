@@ -75,6 +75,7 @@ public class Endereco implements Serializable {
     private Pessoa codPessoa;
 
     public Endereco() {
+        this.codEndereco=0;
     }
 
     public Endereco(Integer codEndereco) {

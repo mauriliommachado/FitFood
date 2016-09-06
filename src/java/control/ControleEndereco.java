@@ -39,7 +39,6 @@ public abstract class ControleEndereco {
         if (endereco == null) {
             endereco = new Endereco();
         }
-        endereco.setCodEndereco(cod);
         endereco.setCodPessoa(ControlePessoa.busca(codPessoa));
         endereco.setEndBairro(bairro);
         endereco.setEndCep(cep);

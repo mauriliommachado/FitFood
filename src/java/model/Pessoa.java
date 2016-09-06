@@ -86,10 +86,11 @@ public class Pessoa implements Serializable {
     @JoinColumn(name = "Cod_Empresa", referencedColumnName = "Cod_Empresa")
     @ManyToOne
     private Empresa codEmpresa;
-    @OneToMany(mappedBy = "codPessoa")
+    @OneToMany(mappedBy = "codPessoa",cascade = CascadeType.ALL)
     private List<Endereco> enderecoList;
 
     public Pessoa() {
+        this.codPessoa=0;
     }
 
     public Pessoa(Integer codPessoa) {

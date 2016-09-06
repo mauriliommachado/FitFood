@@ -5,6 +5,7 @@
  */
 package control;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +52,6 @@ public abstract class ControlePessoa {
             pessoa = new Pessoa();
         }
         pessoa.setCodEmpresa(ControleEmpresa.busca(codEmpresa));
-        pessoa.setCodPessoa(codPessoa);
         pessoa.setCodTipoPessoa(tipoPessoa);
         pessoa.setPesAtivo(pessoaAtiva);
         pessoa.setPesCPF(cpf);
@@ -62,10 +62,11 @@ public abstract class ControlePessoa {
         pessoa.setPesSenha(senha);
         pessoa.setPesSexo(sexo);
         dao.gravar(pessoa);
+        pessoa.setEnderecoList(new ArrayList<>());
         for (Endereco end : listaEndereco) {
-            int codEnd = ControleEndereco.gravar(end.getCodEndereco(), pessoa.getCodPessoa(), end.getEndBairro(), end.getEndCep(), end.getEndCidade(), end.getEndComplemento(), end.getEndLogradouro(), end.getEndNumero(), end.getEndReferencia(), end.getEndUF());
+            pessoa.getEnderecoList().add(ControleEndereco.busca(ControleEndereco.gravar(end.getCodEndereco(), pessoa.getCodPessoa(), end.getEndBairro(), end.getEndCep(), end.getEndCidade(), end.getEndComplemento(), end.getEndLogradouro(), end.getEndNumero(), end.getEndReferencia(), end.getEndUF())));
         }
-        busca(codPessoa);
+        dao.gravar(pessoa);
         return pessoa.getCodPessoa();
     }
 

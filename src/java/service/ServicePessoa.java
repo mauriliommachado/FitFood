@@ -139,7 +139,8 @@ class GsonUTCDateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date>
         try {
             convertedCurrentDate = sdf.parse(jsonElement.getAsString());
         } catch (ParseException ex) {
-            Logger.getLogger(GsonUTCDateAdapter.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(GsonUTCDateAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
         return  convertedCurrentDate;
     }
