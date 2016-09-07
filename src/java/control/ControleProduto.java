@@ -19,10 +19,9 @@ import model.dao.JpaProdutosDAO;
  * @author mauri
  */
 public abstract class ControleProduto {
-    
+
     static DAO dao = new JpaProdutosDAO();
 
-    
     public static List<Produto> limpaProduto(List<Produto> list) {
         for (Produto produto : list) {
             setNull(produto);
@@ -33,9 +32,11 @@ public abstract class ControleProduto {
     private static void setNull(Produto produto) {
         produto.setPedidoList(null);
         produto.setCodFilial(null);
+        produto.setItemPedidoList(null);
+        produto.setItemVendaList(null);
         ControleCategoria.limpaCategoria(produto.getCodCategoria());
         ControleMarca.limpaMarca(produto.getCodMarca());
-        
+
     }
 
     public static Produto limpaProduto(Produto produto) {

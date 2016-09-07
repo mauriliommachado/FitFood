@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,6 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pedido.findByPedDtRealizacao", query = "SELECT p FROM Pedido p WHERE p.pedDtRealizacao = :pedDtRealizacao"),
     @NamedQuery(name = "Pedido.findByPedStatus", query = "SELECT p FROM Pedido p WHERE p.pedStatus = :pedStatus")})
 public class Pedido implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
+    private List<ItemPedido> itemPedidoList;
 
     @JoinColumn(name = "Cod_Filial", referencedColumnName = "Cod_Filial")
     @ManyToOne(optional = false)
@@ -156,6 +161,15 @@ public class Pedido implements Serializable {
 
     public void setCodFilial(Filial codFilial) {
         this.codFilial = codFilial;
+    }
+
+    @XmlTransient
+    public List<ItemPedido> getItemPedidoList() {
+        return itemPedidoList;
+    }
+
+    public void setItemPedidoList(List<ItemPedido> itemPedidoList) {
+        this.itemPedidoList = itemPedidoList;
     }
     
 }

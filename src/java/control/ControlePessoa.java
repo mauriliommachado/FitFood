@@ -13,7 +13,6 @@ import java.util.Map;
 import model.Empresa;
 import model.Endereco;
 import model.Pessoa;
-import model.Telefone;
 import model.dao.DAO;
 import model.dao.JpaPessoaDAO;
 
@@ -36,6 +35,7 @@ public abstract class ControlePessoa {
         for (Endereco end : pessoa.getEnderecoList()) {
             end.setCodPessoa(null);
         }
+        ControleEndereco.limpaEndereco(pessoa.getEnderecoList());
         ControleTelefone.limpaTelefone(pessoa.getTelefoneList());
         pessoa.setCodEmpresa(null);
     }

@@ -8,7 +8,6 @@ package control;
 import java.util.List;
 import model.dao.DAO;
 import model.Telefone;
-import model.Telefone_;
 import model.dao.JpaTelefoneDAO;
 
 /**

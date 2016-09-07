@@ -27,6 +27,7 @@ public abstract class ControleCategoria {
 
     private static void setNull(Categoria categoria) {
         categoria.setCodEmpresa(null);
+        ControleProduto.limpaProduto(categoria.getProdutoList());
     }
 
     public static Categoria limpaCategoria(Categoria categoria) {

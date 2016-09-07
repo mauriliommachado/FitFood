@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +39,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Produto.findByCodFilial", query = "SELECT p FROM Produto p WHERE p.codFilial = :codFilial"),
     @NamedQuery(name = "Produto.findByCodProduto", query = "SELECT p FROM Produto p WHERE p.codProduto = :codProduto")})
 public class Produto implements Serializable {
+
+    @Size(max = 10)
+    @Column(name = "proNCM")
+    private String proNCM;
+    @Size(max = 9)
+    @Column(name = "proCEST")
+    private String proCEST;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "produto")
+    private List<ItemPedido> itemPedidoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "produto")
+    private List<ItemVenda> itemVendaList;
 
     @Basic(optional = false)
     @NotNull
@@ -174,6 +187,40 @@ public class Produto implements Serializable {
 
     public void setCodMarca(Marca codMarca) {
         this.codMarca = codMarca;
+    }
+
+    public String getProNCM() {
+        return proNCM;
+    }
+
+    public void setProNCM(String proNCM) {
+        this.proNCM = proNCM;
+    }
+
+    public String getProCEST() {
+        return proCEST;
+    }
+
+    public void setProCEST(String proCEST) {
+        this.proCEST = proCEST;
+    }
+
+    @XmlTransient
+    public List<ItemPedido> getItemPedidoList() {
+        return itemPedidoList;
+    }
+
+    public void setItemPedidoList(List<ItemPedido> itemPedidoList) {
+        this.itemPedidoList = itemPedidoList;
+    }
+
+    @XmlTransient
+    public List<ItemVenda> getItemVendaList() {
+        return itemVendaList;
+    }
+
+    public void setItemVendaList(List<ItemVenda> itemVendaList) {
+        this.itemVendaList = itemVendaList;
     }
     
 }

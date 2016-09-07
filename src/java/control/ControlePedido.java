@@ -33,6 +33,11 @@ public abstract class ControlePedido {
 
     private static void setNull(Pedido pedido) {
         pedido.setCodFilial(null);
+        for (int i = 0; i < pedido.getItemPedidoList().size(); i++) {
+            pedido.getItemPedidoList().get(i).setPedido(null);
+            ControleProduto.limpaProduto(pedido.getItemPedidoList().get(i).getProduto());
+            pedido.getItemPedidoList().get(i).setItemPedidoPK(null);
+        }
         ControleProduto.limpaProduto(pedido.getProdutoList());
     }
 

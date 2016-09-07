@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,10 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,6 +36,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Categoria.findByCodCategoria", query = "SELECT c FROM Categoria c WHERE c.codCategoria = :codCategoria"),
     @NamedQuery(name = "Categoria.findByCatDescricao", query = "SELECT c FROM Categoria c WHERE c.catDescricao = :catDescricao")})
 public class Categoria implements Serializable {
+
+    @Size(max = 3)
+    @Column(name = "catSigla")
+    private String catSigla;
+    @OneToMany(mappedBy = "codCategoria")
+    private List<Produto> produtoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -108,6 +117,23 @@ public class Categoria implements Serializable {
     @Override
     public String toString() {
         return "model.Categoria[ codCategoria=" + codCategoria + " ]";
+    }
+
+    public String getCatSigla() {
+        return catSigla;
+    }
+
+    public void setCatSigla(String catSigla) {
+        this.catSigla = catSigla;
+    }
+
+    @XmlTransient
+    public List<Produto> getProdutoList() {
+        return produtoList;
+    }
+
+    public void setProdutoList(List<Produto> produtoList) {
+        this.produtoList = produtoList;
     }
     
 }

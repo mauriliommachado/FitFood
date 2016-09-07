@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,6 +50,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pessoa.findByPesSenha", query = "SELECT p FROM Pessoa p WHERE p.pesSenha = :pesSenha"),
     @NamedQuery(name = "Pessoa.findByPesSexo", query = "SELECT p FROM Pessoa p WHERE p.pesSexo = :pesSexo")})
 public class Pessoa implements Serializable {
+
+    @Size(max = 14)
+    @Column(name = "pesCPF_CNPJ")
+    private String pesCPFCNPJ;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoa")
+    private Vendedor vendedor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codpessoa")
     private List<Telefone> telefoneList;
 
@@ -228,5 +235,22 @@ public class Pessoa implements Serializable {
     public void setTelefoneList(List<Telefone> telefoneList) {
         this.telefoneList = telefoneList;
     }
+
+    public String getPesCPFCNPJ() {
+        return pesCPFCNPJ;
+    }
+
+    public void setPesCPFCNPJ(String pesCPFCNPJ) {
+        this.pesCPFCNPJ = pesCPFCNPJ;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+
     
 }

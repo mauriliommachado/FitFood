@@ -44,6 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Filial implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codFilial")
+    private List<Venda> vendaList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codFilial")
     private List<Pedido> pedidoList;
 
     private static final long serialVersionUID = 1L;
@@ -187,6 +190,15 @@ public class Filial implements Serializable {
 
     public void setPedidoList(List<Pedido> pedidoList) {
         this.pedidoList = pedidoList;
+    }
+
+    @XmlTransient
+    public List<Venda> getVendaList() {
+        return vendaList;
+    }
+
+    public void setVendaList(List<Venda> vendaList) {
+        this.vendaList = vendaList;
     }
 
 }

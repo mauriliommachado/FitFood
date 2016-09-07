@@ -11,6 +11,16 @@
     <class>model.Marca</class>
     <class>model.Categoria</class>
     <class>model.Telefone</class>
+    <class>model.Cidade</class>
+    <class>model.ItemPedido</class>
+    <class>model.VendaPgto</class>
+    <class>model.ItemVenda</class>
+    <class>model.Uf</class>
+    <class>model.Email</class>
+    <class>model.FormaPgto</class>
+    <class>model.Cfop</class>
+    <class>model.Venda</class>
+    <class>model.Vendedor</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/food?zeroDateTimeBehavior=convertToNull"/>

@@ -77,6 +77,7 @@ public abstract class ControleFilial {
         try {
             filial.setProdutoList(null);
             filial.setPedidoList(null);
+            filial.setVendaList(null);
             if (filial.getCodEmpresa() != null) {
                 ControleEmpresa.limpaEmpresa(filial.getCodEmpresa());
             }

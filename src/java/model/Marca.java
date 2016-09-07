@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,10 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Marca.findByCodEmpresa", query = "SELECT m FROM Marca m WHERE m.codEmpresa = :codEmpresa"),
     @NamedQuery(name = "Marca.findByMarDescricao", query = "SELECT m FROM Marca m WHERE m.marDescricao = :marDescricao")})
 public class Marca implements Serializable {
+
+    @OneToMany(mappedBy = "codMarca")
+    private List<Produto> produtoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -109,6 +115,15 @@ public class Marca implements Serializable {
     @Override
     public String toString() {
         return "model.Marca[ codMarca=" + codMarca + " ]";
+    }
+
+    @XmlTransient
+    public List<Produto> getProdutoList() {
+        return produtoList;
+    }
+
+    public void setProdutoList(List<Produto> produtoList) {
+        this.produtoList = produtoList;
     }
     
 }

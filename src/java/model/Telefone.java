@@ -34,16 +34,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Telefone.findByTelTipo", query = "SELECT t FROM Telefone t WHERE t.telTipo = :telTipo"),
     @NamedQuery(name = "Telefone.findByTelNumero", query = "SELECT t FROM Telefone t WHERE t.telNumero = :telNumero")})
 public class Telefone implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "telTipo")
+    private short telTipo;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Cod_Telefone")
     private Integer codTelefone;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "telTipo")
-    private short telTipo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 11)
@@ -74,13 +75,6 @@ public class Telefone implements Serializable {
         this.codTelefone = codTelefone;
     }
 
-    public short getTelTipo() {
-        return telTipo;
-    }
-
-    public void setTelTipo(short telTipo) {
-        this.telTipo = telTipo;
-    }
 
     public String getTelNumero() {
         return telNumero;
@@ -121,6 +115,14 @@ public class Telefone implements Serializable {
     @Override
     public String toString() {
         return "model.Telefone[ codTelefone=" + codTelefone + " ]";
+    }
+
+    public short getTelTipo() {
+        return telTipo;
+    }
+
+    public void setTelTipo(short telTipo) {
+        this.telTipo = telTipo;
     }
     
 }
