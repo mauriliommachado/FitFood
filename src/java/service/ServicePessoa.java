@@ -100,9 +100,9 @@ public class ServicePessoa {
             return null;
         }
         if (pessoa.getCodPessoa() == 0) {
-            cod = ControlePessoa.gravar(0, pessoa.getCodEmpresa().getCodEmpresa(), pessoa.getCodTipoPessoa(), pessoa.getEnderecoList(), pessoa.getPesAtivo(), pessoa.getPesCPF(), new Date(), pessoa.getPesEmail(), pessoa.getPesFisica(), pessoa.getPesNome(), pessoa.getPesSenha(), pessoa.getPesSexo());
+            cod = ControlePessoa.gravar(0, pessoa.getCodEmpresa().getCodEmpresa(), pessoa.getCodTipoPessoa(), pessoa.getEnderecoList(), pessoa.getPesAtivo(), pessoa.getPesCPFCNPJ(), new Date(), pessoa.getPesEmail(), pessoa.getPesFisica(), pessoa.getPesNome(), pessoa.getPesSenha(), pessoa.getPesSexo());
         } else {
-            cod = ControlePessoa.gravar(pessoa.getCodPessoa(), pessoa.getCodEmpresa().getCodEmpresa(), pessoa.getCodTipoPessoa(), pessoa.getEnderecoList(), pessoa.getPesAtivo(), pessoa.getPesCPF(), pessoa.getPesDtCadastro(), pessoa.getPesEmail(), pessoa.getPesFisica(), pessoa.getPesNome(), pessoa.getPesSenha(), pessoa.getPesSexo());
+            cod = ControlePessoa.gravar(pessoa.getCodPessoa(), pessoa.getCodEmpresa().getCodEmpresa(), pessoa.getCodTipoPessoa(), pessoa.getEnderecoList(), pessoa.getPesAtivo(), pessoa.getPesCPFCNPJ(), pessoa.getPesDtCadastro(), pessoa.getPesEmail(), pessoa.getPesFisica(), pessoa.getPesNome(), pessoa.getPesSenha(), pessoa.getPesSexo());
         }
         return gson.toJson(ControlePessoa.limpaPessoa(ControlePessoa.busca(cod)));
     }

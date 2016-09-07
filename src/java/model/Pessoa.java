@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pessoa.findByCodEmpresa", query = "SELECT p FROM Pessoa p WHERE p.codEmpresa = :codEmpresa"),
     @NamedQuery(name = "Pessoa.findByCodTipoPessoa", query = "SELECT p FROM Pessoa p WHERE p.codTipoPessoa = :codTipoPessoa"),
     @NamedQuery(name = "Pessoa.findByPesAtivo", query = "SELECT p FROM Pessoa p WHERE p.pesAtivo = :pesAtivo"),
-    @NamedQuery(name = "Pessoa.findByPesCPF", query = "SELECT p FROM Pessoa p WHERE p.pesCPF = :pesCPF"),
     @NamedQuery(name = "Pessoa.findByPesDtCadastro", query = "SELECT p FROM Pessoa p WHERE p.pesDtCadastro = :pesDtCadastro"),
     @NamedQuery(name = "Pessoa.findByPesEmail", query = "SELECT p FROM Pessoa p WHERE p.pesEmail = :pesEmail"),
     @NamedQuery(name = "Pessoa.findByPesFisica", query = "SELECT p FROM Pessoa p WHERE p.pesFisica = :pesFisica"),
@@ -58,10 +57,6 @@ public class Pessoa implements Serializable {
     private Vendedor vendedor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codpessoa")
     private List<Telefone> telefoneList;
-
-    @Size(max = 11)
-    @Column(name = "pesCPF")
-    private String pesCPF;
 
     @Column(name = "Cod_Tipo_Pessoa")
     private Integer codTipoPessoa;
@@ -217,14 +212,6 @@ public class Pessoa implements Serializable {
 
     public void setCodTipoPessoa(Integer codTipoPessoa) {
         this.codTipoPessoa = codTipoPessoa;
-    }
-
-    public String getPesCPF() {
-        return pesCPF;
-    }
-
-    public void setPesCPF(String pesCPF) {
-        this.pesCPF = pesCPF;
     }
 
     @XmlTransient

@@ -54,7 +54,7 @@ public abstract class ControlePessoa {
         pessoa.setCodEmpresa(ControleEmpresa.busca(codEmpresa));
         pessoa.setCodTipoPessoa(tipoPessoa);
         pessoa.setPesAtivo(pessoaAtiva);
-        pessoa.setPesCPF(cpf);
+        pessoa.setPesCPFCNPJ(cpf);
         pessoa.setPesDtCadastro(dtCadastro);
         pessoa.setPesEmail(email);
         pessoa.setPesFisica(pessoaFisica);
