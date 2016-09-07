@@ -30,7 +30,7 @@ public abstract class ControleMarca {
 
     private static void setNull(Marca marca) {
         marca.setCodEmpresa(null);
-        ControleProduto.limpaProduto(marca.getProdutoList());
+        marca.setProdutoList(null);
     }
 
     public static Marca limpaMarca(Marca marca) {
